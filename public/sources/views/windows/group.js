@@ -25,7 +25,8 @@ export default class GroupWindow extends JetView {
 					attributes: {
 						maxlength: 15
 					},
-					labelWidth: 80
+					labelWidth: 80,
+					invalidMessage: "The name word is required."
 				},
 				{
 					cols: [
@@ -46,15 +47,20 @@ export default class GroupWindow extends JetView {
 							hotkey: "enter",
 							css: "webix_primary",
 							click: () => {
-								const values = this.$$("form").getValues();
-								wordsGroups.add(values);
-								this.$$("form").clear();
-								this.hideWindow();
+								if (this.$$("form").validate()) {
+									const values = this.$$("form").getValues();
+									wordsGroups.add(values);
+									this.$$("form").clear();
+									this.hideWindow();
+								}
 							}
 						}
 					]
 				}
-			]
+			],
+			rules: {
+				Name: webix.rules.isNotEmpty
+			}
 		};
 
 		return {

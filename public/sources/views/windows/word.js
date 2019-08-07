@@ -25,7 +25,8 @@ export default class WordWindow extends JetView {
 					label: "English",
 					attributes: {
 						maxlength: 15
-					}
+					},
+					invalidMessage: "The English word is required."
 				},
 				{
 					view: "text",
@@ -33,7 +34,8 @@ export default class WordWindow extends JetView {
 					label: "Russian",
 					attributes: {
 						maxlength: 15
-					}
+					},
+					invalidMessage: "The English word is required."
 				},
 				{
 					view: "combo",
@@ -51,6 +53,7 @@ export default class WordWindow extends JetView {
 							label: "Cancel",
 							autowidth: true,
 							click: () => {
+								this.$$("form").clear();
 								this.hideWindow();
 							}
 						},
@@ -61,18 +64,24 @@ export default class WordWindow extends JetView {
 							hotkey: "enter",
 							css: "webix_primary",
 							click: () => {
-								const values = this.$$("form").getValues();
-								values.GroupId = 
-								values.UserId = "1"
-								console.log(values);
-								// words.add(values);
-								this.$$("form").clear();
-								this.hideWindow();
+								if (this.$$("form").validate()) {
+									const values = this.$$("form").getValues();
+									values.GroupId = this.getParam("id", true);
+									// Change User Id field after use User plugin
+									values.UserId = "1";
+									words.add(values);
+									this.$$("form").clear();
+									this.hideWindow();
+								}
 							}
 						}
 					]
 				}
 			],
+			rules: {
+				English: webix.rules.isNotEmpty,
+				Russian: webix.rules.isNotEmpty
+			},
 			elementsConfig: {
 				labelWidth: 80
 			}
@@ -93,16 +102,13 @@ export default class WordWindow extends JetView {
 		};
 	}
 
-	init() {
+	showWindow() {
 		partsOfSpeech.waitData.then(() => {
 			const value = partsOfSpeech.getFirstId();
 			if (value) {
 				this.$$("combo").setValue(value);
 			}
 		});
-	}
-
-	showWindow() {
 		this.getRoot().show();
 	}
 

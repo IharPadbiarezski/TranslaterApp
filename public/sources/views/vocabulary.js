@@ -16,8 +16,8 @@ export default class VocabularyView extends JetView {
 			template: "#Name#",
 			on: {
 				onAfterSelect: (id) => {
-					this.show("words");
 					this.setParam("id", id);
+					this.show("words");
 					words.waitData.then(() => {
 						words.data.filter(item => item.GroupId === id);
 					});
@@ -58,7 +58,15 @@ export default class VocabularyView extends JetView {
 
 	init() {
 		this.$$("wordsGroupList").sync(wordsGroups);
-		this.show("helperTemplate");
 		this.groupWindow = this.ui(GroupWindow);
+		wordsGroups.waitData.then(() => {
+			let id = this.getParam("id") || wordsGroups.getFirstId();
+			if (id && wordsGroups.exists(id)) {
+				this.$$("wordsGroupList").select(id);
+			}
+			else {
+				this.show("helperTemplate");
+			}
+		});
 	}
 }
