@@ -1,6 +1,7 @@
 import {JetView} from "webix-jet";
 import {wordsGroups} from "../models/wordsGroups";
 import {words} from "../models/words";
+import GroupWindow from "./windows/group";
 
 export default class VocabularyView extends JetView {
 	config() {
@@ -16,6 +17,7 @@ export default class VocabularyView extends JetView {
 			on: {
 				onAfterSelect: (id) => {
 					this.show("words");
+					this.setParam("id", id);
 					words.waitData.then(() => {
 						words.data.filter(item => item.GroupId === id);
 					});
@@ -33,7 +35,7 @@ export default class VocabularyView extends JetView {
 					autoheight: true,
 					css: "webix_primary",
 					click: () => {
-						console.log("create button");
+						this.groupWindow.showWindow();
 					}
 				}
 			]
@@ -57,5 +59,6 @@ export default class VocabularyView extends JetView {
 	init() {
 		this.$$("wordsGroupList").sync(wordsGroups);
 		this.show("helperTemplate");
+		this.groupWindow = this.ui(GroupWindow);
 	}
 }

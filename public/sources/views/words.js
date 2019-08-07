@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import {words} from "../models/words";
+import WordWindow from "./windows/word";
 
 export default class VocabularyList extends JetView {
 	config() {
@@ -15,12 +16,12 @@ export default class VocabularyList extends JetView {
 			view: "toolbar",
 			borderless: true,
 			elements: [
+				{},
 				{
 					view: "button",
 					label: "Export to Excel",
 					css: "webix_secondary",
-					align: "right",
-					inputWidth: 200,
+					autowidth: true,
 					click: () => {
 						webix.toExcel(this.$$("list"), {
 							filename: "words",
@@ -36,12 +37,10 @@ export default class VocabularyList extends JetView {
 					view: "button",
 					label: "+ Add Word",
 					localId: "addWordButton",
-					autoheight: true,
+					autowidth: true,
 					css: "webix_primary",
-					align: "right",
-					inputWidth: 200,
 					click: () => {
-						console.log("add button");
+						this.wordWindow.showWindow();
 					}
 				}
 			]
@@ -57,6 +56,7 @@ export default class VocabularyList extends JetView {
 
 	init() {
 		this.$$("list").sync(words);
+		this.wordWindow = this.ui(WordWindow);
 	}
 
 	// urlChange() {
