@@ -57,3 +57,10 @@
 .header__logo {
     padding-left: 20px;
 }
+.test__label .webix_el_box {
+    font-size: 30px;
+    color: purple;
+}
+.test__template .webix_template {
+    font-size: 40px;
+}

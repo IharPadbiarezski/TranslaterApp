@@ -15,5 +15,6 @@ export default {
 	Cancel: "Отмена",
 	Name: "Name",
 	"Create Word": "Создать Слово",
-	"Part Of Speech": "Часть Речи"
+	"Part Of Speech": "Часть Речи",
+	"Take Test": "Пройти Тест"
 };

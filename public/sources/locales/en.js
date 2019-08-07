@@ -15,5 +15,6 @@ export default {
 	Cancel: "Cancel",
 	Name: "Name",
 	"Create Word": "Create Word",
-	"Part Of Speech": "Part Of Speech"
+	"Part Of Speech": "Part Of Speech",
+	"Take Test": "Take Test"
 };
