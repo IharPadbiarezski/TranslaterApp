@@ -4,19 +4,27 @@ export const wordsGroups = new webix.DataCollection({
 	data: [
 		{
 			id: "1",
-			Name: "Business"
+			Name: "Business",
+			CreationDate: "2019-07-30 11:36:10",
+			Amount: 1
 		},
 		{
 			id: "2",
-			Name: "Education"
+			Name: "Education",
+			CreationDate: "2019-07-30 11:36:10",
+			Amount: 1
 		},
 		{
 			id: "3",
-			Name: "Lifestyle"
+			Name: "Lifestyle",
+			CreationDate: "2019-07-30 11:36:10",
+			Amount: 2
 		},
 		{
 			id: "4",
-			Name: "Sport"
+			Name: "Sport",
+			CreationDate: "2019-07-30 11:36:10",
+			Amount: 1
 		}
 	]
 	// url: urls.wordsGroups,

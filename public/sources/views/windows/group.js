@@ -49,6 +49,8 @@ export default class GroupWindow extends JetView {
 							click: () => {
 								if (this.$$("form").validate()) {
 									const values = this.$$("form").getValues();
+									values.Amount = 0;
+									values.CreationDate = new Date();
 									wordsGroups.add(values);
 									this.$$("form").clear();
 									this.hideWindow();
