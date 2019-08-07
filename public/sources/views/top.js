@@ -4,9 +4,6 @@ export default class TopView extends JetView {
 	config() {
 		const lang = this.app.getService("locale").getLang();
 		const _ = this.app.getService("locale")._;
-		// let header = {
-		// 	type: "header", template: this.app.config.name, css: "webix_header app_header"
-		// };
 		const toolBar = {
 			view: "toolbar",
 			height: 56,
@@ -57,9 +54,9 @@ export default class TopView extends JetView {
 			select: true,
 			template: "#value# ",
 			data: [
-				{value: "Vocabulary", id: "vocabulary"},
-				{value: "Tests", id: "tests"},
-				{value: "Results", id: "results"}
+				{value: _("Vocabulary"), id: "vocabulary"},
+				{value: _("Tests"), id: "tests"},
+				{value: _("Results"), id: "results"}
 			]
 		};
 

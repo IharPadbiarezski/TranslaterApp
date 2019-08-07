@@ -5,6 +5,7 @@ import GroupWindow from "./windows/group";
 
 export default class VocabularyView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const wordsGroupsList = {
 			view: "list",
 			localId: "wordsGroupList",
@@ -30,7 +31,9 @@ export default class VocabularyView extends JetView {
 			rows: [
 				{
 					view: "button",
-					label: "+ Create Group",
+					type: "icon",
+					icon: "wxi-plus",
+					label: _("Create Group"),
 					localId: "createGroupButton",
 					autoheight: true,
 					css: "webix_primary",

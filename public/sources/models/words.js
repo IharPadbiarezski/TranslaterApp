@@ -7,7 +7,7 @@ export const words = new webix.DataCollection({
 			Russian: "Бизнесс",
 			English: "Business",
 			GroupId: "1",
-			PartsOfSpeech: "1",
+			PartOfSpeech: "1",
 			UserId: "1"
 		},
 		{
@@ -15,7 +15,7 @@ export const words = new webix.DataCollection({
 			Russian: "Образование",
 			English: "Education",
 			GroupId: "2",
-			PartsOfSpeech: "1",
+			PartOfSpeech: "1",
 			UserId: "1"
 		},
 		{
@@ -23,7 +23,7 @@ export const words = new webix.DataCollection({
 			Russian: "Образ жизни",
 			English: "Lifestyle",
 			GroupId: "3",
-			PartsOfSpeech: "1",
+			PartOfSpeech: "1",
 			UserId: "1"
 		},
 		{
@@ -31,7 +31,7 @@ export const words = new webix.DataCollection({
 			Russian: "Спорт",
 			English: "Sport",
 			GroupId: "4",
-			PartsOfSpeech: "1",
+			PartOfSpeech: "1",
 			UserId: "1"
 		},
 		{
@@ -39,7 +39,7 @@ export const words = new webix.DataCollection({
 			Russian: "Бежать",
 			English: "To run",
 			GroupId: "3",
-			PartsOfSpeech: "2",
+			PartOfSpeech: "2",
 			UserId: "1"
 		}
 	]

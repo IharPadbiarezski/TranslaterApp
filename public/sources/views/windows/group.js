@@ -3,13 +3,14 @@ import {wordsGroups} from "../../models/wordsGroups";
 
 export default class GroupWindow extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const toolbar = {
 			view: "toolbar",
 			height: 56,
 			elements: [
 				{
 					view: "label",
-					label: "Create Group"
+					label: _("Create Group")
 				}
 			]
 		};
@@ -21,7 +22,7 @@ export default class GroupWindow extends JetView {
 				{
 					view: "text",
 					name: "Name",
-					label: "Name",
+					label: _("Name"),
 					attributes: {
 						maxlength: 15
 					},
@@ -34,7 +35,7 @@ export default class GroupWindow extends JetView {
 						{
 							view: "button",
 							css: "webix_secondary",
-							label: "Cancel",
+							label: _("Cancel"),
 							autowidth: true,
 							click: () => {
 								this.hideWindow();
@@ -42,7 +43,7 @@ export default class GroupWindow extends JetView {
 						},
 						{
 							view: "button",
-							value: "Save",
+							value: _("Save"),
 							autowidth: true,
 							hotkey: "enter",
 							css: "webix_primary",

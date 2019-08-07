@@ -5,13 +5,14 @@ import {partsOfSpeech} from "../../models/partsOfSpeech";
 
 export default class WordWindow extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const toolbar = {
 			view: "toolbar",
 			height: 56,
 			elements: [
 				{
 					view: "label",
-					label: "Create Word"
+					label: _("Create Word")
 				}
 			]
 		};
@@ -23,7 +24,7 @@ export default class WordWindow extends JetView {
 				{
 					view: "text",
 					name: "English",
-					label: "English",
+					label: _("Original"),
 					attributes: {
 						maxlength: 15
 					},
@@ -32,7 +33,7 @@ export default class WordWindow extends JetView {
 				{
 					view: "text",
 					name: "Russian",
-					label: "Russian",
+					label: _("Translation"),
 					attributes: {
 						maxlength: 15
 					},
@@ -40,9 +41,9 @@ export default class WordWindow extends JetView {
 				},
 				{
 					view: "combo",
-					name: "Status",
+					name: "PartOfSpeech",
 					localId: "combo",
-					label: "Choose status",
+					label: _("Part Of Speech"),
 					options: partsOfSpeech
 				},
 				{
@@ -51,7 +52,7 @@ export default class WordWindow extends JetView {
 						{
 							view: "button",
 							css: "webix_secondary",
-							label: "Cancel",
+							label: _("Cancel"),
 							autowidth: true,
 							click: () => {
 								this.$$("form").clear();
@@ -60,7 +61,7 @@ export default class WordWindow extends JetView {
 						},
 						{
 							view: "button",
-							value: "Save",
+							value: _("Save"),
 							autowidth: true,
 							hotkey: "enter",
 							css: "webix_primary",
@@ -87,7 +88,7 @@ export default class WordWindow extends JetView {
 				Russian: webix.rules.isNotEmpty
 			},
 			elementsConfig: {
-				labelWidth: 80
+				labelWidth: 150
 			}
 		};
 
