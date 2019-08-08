@@ -9,7 +9,7 @@ export default class ResultWindow extends JetView {
 			elements: [
 				{
 					view: "label",
-					label: "Your Result",
+					label: _("Your Result"),
 					align: "center"
 				}
 			]
@@ -22,7 +22,7 @@ export default class ResultWindow extends JetView {
 				{
 					view: "button",
 					css: "webix_danger",
-					label: "Go To Words",
+					label: _("Go To Vocabulary"),
 					click: () => {
 						this.hideWindow();
 						this.show("vocabulary");
@@ -30,7 +30,7 @@ export default class ResultWindow extends JetView {
 				},
 				{
 					view: "button",
-					value: "Start Again",
+					value: _("Start Again"),
 					hotkey: "enter",
 					css: "webix_primary",
 					click: () => {
@@ -41,7 +41,7 @@ export default class ResultWindow extends JetView {
 				{
 					view: "button",
 					css: "webix_danger",
-					label: "Go To Results",
+					label: _("Go To Results"),
 					click: () => {
 						this.hideWindow();
 						this.show("results");

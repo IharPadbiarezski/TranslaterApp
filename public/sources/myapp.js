@@ -1,6 +1,6 @@
 import {JetApp, EmptyRouter, HashRouter, plugins} from "webix-jet";
 import "./styles/app.css";
-// import session from "./models/session";
+import session from "./models/session";
 
 export default class MyApp extends JetApp {
 	constructor(config) {

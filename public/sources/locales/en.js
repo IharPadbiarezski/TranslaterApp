@@ -16,5 +16,19 @@ export default {
 	Name: "Name",
 	"Create Word": "Create Word",
 	"Part Of Speech": "Part Of Speech",
-	"Take Test": "Take Test"
+	"Take Test": "Take Test",
+	"The name word is required.": "The name word is required.",
+	"Your Result": "Your Result",
+	"Go To Vocabulary": "Go To Vocabulary",
+	"Start Again": "Start Again",
+	"Go To Results": "Go To Results",
+	"Choose a Category": "Choose a Category",
+	"Start Test": "Start Test",
+	"The English word is required.": "The English word is required.",
+	"The Russian word is required.": "The Russian word is required.",
+	"Test Date": "Test Date",
+	Result: "Result",
+	Score: "Score",
+	Logout: "Logout",
+	Category: "Category"
 };

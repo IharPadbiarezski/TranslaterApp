@@ -16,5 +16,19 @@ export default {
 	Name: "Name",
 	"Create Word": "Создать Слово",
 	"Part Of Speech": "Часть Речи",
-	"Take Test": "Пройти Тест"
+	"Take Test": "Пройти Тест",
+	"The name word is required.": "Имя слова обязательно.",
+	"Your Result": "Ваш результат",
+	"Go To Vocabulary": "Перейти к словарю",
+	"Start Again": "Начать заново",
+	"Go To Results": "Результаты",
+	"Choose a Category": "Выберите категорию",
+	"Start Test": "Начать тест",
+	"The English word is required.": "Введите английское слово.",
+	"The Russian word is required.": "Введите русское слово.",
+	"Test Date": "Дата Теста",
+	Result: "Результат",
+	Score: "Оценка",
+	Logout: "Выйти",
+	Category: "Категория"
 };

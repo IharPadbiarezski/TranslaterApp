@@ -27,7 +27,7 @@ export default class GroupWindow extends JetView {
 						maxlength: 15
 					},
 					labelWidth: 80,
-					invalidMessage: "The name word is required."
+					invalidMessage: _("The name word is required.")
 				},
 				{
 					cols: [

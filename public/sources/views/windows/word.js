@@ -28,7 +28,7 @@ export default class WordWindow extends JetView {
 					attributes: {
 						maxlength: 15
 					},
-					invalidMessage: "The English word is required."
+					invalidMessage: _("The English word is required.")
 				},
 				{
 					view: "text",
@@ -37,7 +37,7 @@ export default class WordWindow extends JetView {
 					attributes: {
 						maxlength: 15
 					},
-					invalidMessage: "The English word is required."
+					invalidMessage: _("The Russian word is required.")
 				},
 				{
 					view: "combo",

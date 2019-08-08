@@ -34,7 +34,7 @@ export default class TopView extends JetView {
 						{
 							view: "button",
 							css: "webix_transparent",
-							label: "Logout",
+							label: _("Logout"),
 							autowidth: true,
 							click: () => {
 								// this.show("/logout");

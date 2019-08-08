@@ -17,7 +17,7 @@ export default class Storage {
 	}
 
 	static removeResultLocalStorage(id) {
-		let resultsLS = this.getresultsFromStorage();
+		let resultsLS = this.getResultsFromStorage();
 		resultsLS.forEach((resultLS, index) => {
 			if (resultLS.id === id) {
 				resultsLS.splice(index, 1);

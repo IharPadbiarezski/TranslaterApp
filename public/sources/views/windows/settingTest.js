@@ -10,7 +10,7 @@ export default class SettingTestWindow extends JetView {
 			elements: [
 				{
 					view: "label",
-					label: "Choose a Category",
+					label: _("Choose a Category"),
 					align: "center"
 				}
 			]
@@ -31,7 +31,7 @@ export default class SettingTestWindow extends JetView {
 						{
 							view: "button",
 							css: "webix_danger",
-							label: "Go To Words",
+							label: _("Go To Vocabulary"),
 							click: () => {
 								this.hideWindow();
 								this.show("vocabulary");
@@ -39,7 +39,7 @@ export default class SettingTestWindow extends JetView {
 						},
 						{
 							view: "button",
-							value: "Start Test",
+							value: _("Start Test"),
 							hotkey: "enter",
 							css: "webix_primary",
 							click: () => {
@@ -52,7 +52,7 @@ export default class SettingTestWindow extends JetView {
 						{
 							view: "button",
 							css: "webix_danger",
-							label: "Go To Results",
+							label: _("Go To Results"),
 							click: () => {
 								this.hideWindow();
 								this.show("results");

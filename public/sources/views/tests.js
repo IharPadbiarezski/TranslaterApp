@@ -123,7 +123,7 @@ export default class TestsView extends JetView {
 					localId: "score",
 					template: (obj) => {
 						if (obj.Score || obj.Score === 0) {
-							return `Score: ${obj.Score}`;
+							return `${_("Score")}: ${obj.Score}`;
 						}
 						return "";
 					},
@@ -138,13 +138,14 @@ export default class TestsView extends JetView {
 	}
 
 	init() {
+		const _ = this.app.getService("locale")._;
 		this.settingTestWindow = this.ui(SettingTestWindow);
 		this.resultWindow = this.ui(ResultWindow);
 		this.settingTestWindow.showWindow();
 
-		this.on(this.app, "test:showquestion", (groupName, id) => {
+		this.on(this.app, "test:showquestion", (groupName) => {
 			this.groupName = groupName;
-			this.$$("categoryLabel").setValue(`Category: ${groupName}`);
+			this.$$("categoryLabel").setValue(`${_("Category")}: ${groupName}`);
 			this.dischargeParameters();
 			this.showQuestion(groupName);
 			this.setCurrentScore();

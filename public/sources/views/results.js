@@ -16,12 +16,12 @@ export default class ResultsView extends JetView {
 				},
 				{
 					id: "TestDate",
-					header: "Test Date",
-					fillspace: true,
+					header: _("Test Date"),
+					fillspace: true
 				},
 				{
 					id: "Result",
-					header: "Result",
+					header: _("Result"),
 					fillspace: true
 				}
 			]
