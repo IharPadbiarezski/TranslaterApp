@@ -29,7 +29,8 @@ if (!BUILD_AS_MODULE) {
 			webix: {
 				en: "en-US",
 				ru: "ru-RU"
-			}
+			},
+			storage: webix.storage.local
 		});
 	});
 }

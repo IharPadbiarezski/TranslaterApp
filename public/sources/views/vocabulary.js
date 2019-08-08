@@ -43,30 +43,13 @@ export default class VocabularyView extends JetView {
 				}
 			]
 		};
-		const takeTestButton = {
-			view: "toolbar",
-			borderless: true,
-			rows: [
-				{
-					view: "button",
-					label: _("Take Test"),
-					localId: "createGroupButton",
-					autoheight: true,
-					css: "webix_secondary",
-					click: () => {
-						this.show("tests");
-					}
-				}
-			]
-		};
 
 		return {
 			cols: [
 				{
 					rows: [
 						wordsGroupsList,
-						createGroupButton,
-						takeTestButton
+						createGroupButton
 					]
 				},
 				{

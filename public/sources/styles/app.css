@@ -59,8 +59,18 @@
 }
 .test__label .webix_el_box {
     font-size: 30px;
-    color: purple;
+    color: rgb(22, 72, 180);
+}
+.test--category__label .webix_el_box, .test--question__label .webix_el_box {
+    font-size: 20px;
+    font-weight: 400;
 }
 .test__template .webix_template {
     font-size: 40px;
 }
+.result__template .webix_template {
+    padding-top: 25px;
+    text-align: center;
+    font-size: 40px;
+    color: green;
+ }

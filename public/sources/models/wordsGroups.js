@@ -26,7 +26,10 @@ export const wordsGroups = new webix.DataCollection({
 			CreationDate: "2019-07-30 11:36:10",
 			Amount: 1
 		}
-	]
+	],
+	scheme: {
+		$init: (obj) => { obj.value = obj.Name; }
+	}
 	// url: urls.wordsGroups,
 	// save: `rest->${urls.wordsGroups}`
 });

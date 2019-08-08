@@ -3,7 +3,7 @@ import {words} from "../models/words";
 import WordWindow from "./windows/word";
 import {partsOfSpeech} from "../models/partsOfSpeech";
 
-export default class VocabularyList extends JetView {
+export default class VocabularyTable extends JetView {
 	config() {
 		const _ = this.app.getService("locale")._;
 		const table = {

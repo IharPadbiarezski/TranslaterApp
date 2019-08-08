@@ -1,0 +1,94 @@
+import {JetView} from "webix-jet";
+import {wordsGroups} from "../../models/wordsGroups";
+
+export default class SettingTestWindow extends JetView {
+	config() {
+		const _ = this.app.getService("locale")._;
+		const toolbar = {
+			view: "toolbar",
+			height: 56,
+			elements: [
+				{
+					view: "label",
+					label: "Choose a Category",
+					align: "center"
+				}
+			]
+		};
+
+		const form = {
+			view: "form",
+			localId: "form",
+			rows: [
+				{
+					view: "combo",
+					name: "id",
+					localId: "combo",
+					options: wordsGroups
+				},
+				{
+					cols: [
+						{
+							view: "button",
+							css: "webix_danger",
+							label: "Go To Words",
+							click: () => {
+								this.hideWindow();
+								this.show("vocabulary");
+							}
+						},
+						{
+							view: "button",
+							value: "Start Again",
+							hotkey: "enter",
+							css: "webix_primary",
+							click: () => {
+								const id = this.$$("form").getValues().id;
+								const groupName = wordsGroups.getItem(id).Name;
+								this.app.callEvent("test:showquestion", [groupName, id]);
+								this.hideWindow();
+							}
+						},
+						{
+							view: "button",
+							css: "webix_danger",
+							label: "Go To Results",
+							click: () => {
+								this.hideWindow();
+								this.show("results");
+							}
+						}
+					]
+				}
+			]
+		};
+
+		return {
+			view: "window",
+			head: false,
+			position: "center",
+			modal: true,
+			body: {
+				width: 600,
+				rows: [
+					toolbar,
+					form
+				]
+			}
+		};
+	}
+
+	showWindow() {
+		wordsGroups.waitData.then(() => {
+			const value = wordsGroups.getFirstId();
+			if (value) {
+				this.$$("combo").setValue(value);
+			}
+		});
+		this.getRoot().show();
+	}
+
+	hideWindow() {
+		this.getRoot().hide();
+	}
+}

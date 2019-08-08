@@ -1,4 +1,6 @@
 import {JetView} from "webix-jet";
+import SettingTestWindow from "./windows/settingTest";
+import ResultWindow from "./windows/result";
 
 export default class TestsView extends JetView {
 	config() {
@@ -6,14 +8,13 @@ export default class TestsView extends JetView {
 
 		let ui = {
 			view: "gridlayout",
-			gridColumns: 2,
+			gridColumns: 6,
 			gridRows: 6,
 			cells: [
 				{
-					css: "boxy test__label",
+					css: "boxy test--category__label",
 					view: "label",
-					localId: "label",
-					label: "Label",
+					localId: "categoryLabel",
 					align: "center",
 					x: 0,
 					y: 0,
@@ -21,76 +22,107 @@ export default class TestsView extends JetView {
 					dy: 1
 				},
 				{
+					css: "boxy test__label",
+					view: "label",
+					localId: "label",
+					align: "center",
+					x: 2,
+					y: 0,
+					dx: 2,
+					dy: 1
+				},
+				{
+					css: "boxy test--question__label",
+					view: "label",
+					localId: "questionNumberLabel",
+					align: "center",
+					x: 4,
+					y: 0,
+					dx: 2,
+					dy: 1
+				},
+				{
 					css: "boxy",
 					view: "button",
-					label: "Hello",
 					localId: "answerButton_1",
-					// click: () => {
-					// 	const answer = this.getRoot().queryView({view: "button"}).getValue();
-					// 	console.log(answer)
-					// 	this.checkAnswer(answer);
-					// 	this.showQuestion();
-					// },
+					click: () => {
+						const answer = this.$$("answerButton_1").getValue();
+						this.checkAnswer(answer);
+						this.showQuestion();
+						if (this.questionNumber === 10) {
+							this.resultWindow.showWindow({Result: this.score});
+							this.setCurrentScore();
+						}
+					},
 					x: 0,
 					y: 1,
-					dx: 1,
+					dx: 3,
 					dy: 2
 				},
 				{
 					css: "boxy",
 					view: "button",
-					label: "Hello2",
 					localId: "answerButton_2",
-					// click: function() {
-					// 	const answer = this.getValue();
-					// 	console.log(answer)
-					// 	this.$scope.checkAnswer(answer);
-					// 	this.$scope.showQuestion();
-					// },
-					x: 1,
+					click: () => {
+						const answer = this.$$("answerButton_2").getValue();
+						this.checkAnswer(answer);
+						this.showQuestion();
+						if (this.questionNumber === 10) {
+							this.resultWindow.showWindow({Result: this.score});
+							this.setCurrentScore();
+						}
+					},
+					x: 3,
 					y: 1,
-					dx: 1,
+					dx: 3,
 					dy: 2
 				},
 				{
 					css: "boxy",
 					view: "button",
-					label: "Hello3",
 					localId: "answerButton_3",
-					// click: () => {
-					// 	const answer = this.getRoot().queryView({view: "button"}).getValue();
-					// 	console.log(answer)
-					// 	this.checkAnswer(answer);
-					// 	this.showQuestion();
-					// },
+					click: () => {
+						const answer = this.$$("answerButton_3").getValue();
+						this.checkAnswer(answer);
+						this.showQuestion();
+						if (this.questionNumber === 10) {
+							this.resultWindow.showWindow({Result: this.score});
+						}
+					},
 					x: 0,
 					y: 3,
-					dx: 1,
+					dx: 3,
 					dy: 2
 				},
 				{
 					css: "boxy",
 					view: "button",
-					label: "Hello4",
 					localId: "answerButton_4",
-					// click: () => {
-					// 	const answer = this.getRoot().queryView({view: "button"}).getValue();
-					// 	console.log(answer)
-					// 	this.checkAnswer(answer);
-					// 	this.showQuestion();
-					// },
-					x: 1,
+					click: () => {
+						const answer = this.$$("answerButton_4").getValue();
+						this.checkAnswer(answer);
+						this.showQuestion();
+						if (this.questionNumber === 10) {
+							this.resultWindow.showWindow({Result: this.score});
+						}
+					},
+					x: 3,
 					y: 3,
-					dx: 1,
+					dx: 3,
 					dy: 2
 				},
 				{
 					css: "boxy test__template",
 					localId: "score",
-					template: obj => `Score: ${obj.score || 0}`,
+					template: (obj) => {
+						if (obj.Score || obj.Score === 0) {
+							return `Score: ${obj.Score}`;
+						}
+						return "";
+					},
 					x: 0,
 					y: 5,
-					dx: 2,
+					dx: 6,
 					dy: 1
 				}
 				// {
@@ -108,43 +140,60 @@ export default class TestsView extends JetView {
 	}
 
 	init() {
-		this.score = 0;
-		this.showQuestion();
+		this.settingTestWindow = this.ui(SettingTestWindow);
+		this.resultWindow = this.ui(ResultWindow);
+		this.settingTestWindow.showWindow();
 
+		this.on(this.app, "test:showquestion", (groupName, id) => {
+			this.$$("categoryLabel").setValue(`Category: ${groupName}`);
+			this.dischargeParameters();
+			this.showQuestion(groupName);
+			this.setCurrentScore();
+		});
 
-		this.getButtonValue();
-		// this.$$("answerButton_1").attachEvent("onItemClick", () => {
-		// 	console.log(this.$$("answerButton_1").getValue())
-		// });
-	}
-
-	getButtonValue() {
-		const buttons = [this.$$("answerButton_1"), this.$$("answerButton_2"), this.$$("answerButton_3"), this.$$("answerButton_4")];
-
-		buttons.forEach((button) => {
-			button.attachEvent("onItemClick", () => {
-				const userAnswer = button.getValue();
-				this.checkAnswer(userAnswer);
-				this.showQuestion();
-			});
+		this.on(this.app, "test:startnewtest", () => {
+			this.settingTestWindow.showWindow();
 		});
 	}
 
-	checkAnswer(answer) {
-		if (answer === "Меня") {
-			++this.score;
-			this.$$("score").setValues({score: this.score});
+	dischargeParameters() {
+		this.score = 0;
+		this.questionNumber = 0;
+	}
+
+	setCurrentScore() {
+		this.$$("score").setValues({Score: this.score});
+	}
+
+	checkAnswer(userAnswer) {
+		if (userAnswer === this.correctAnswer) {
+			if (this.questionWord.PartOfSpeech === "Noun" || this.questionWord.PartOfSpeech === "Verb") {
+				this.score += 2;
+			}
+			else {
+				++this.score;
+			}
+			this.setCurrentScore();
 		}
+		++this.questionNumber;
+	}
+
+	makeRequest() {
+
 	}
 
 	showQuestion() {
-		let possibleAnswers = ["Ботвы", "Ку", "До"];
-		const correctAnswer = "Меня";
-		const question = "Mine";
+		// Here would be ajax request and every time is called the app get new object
+		let possibleAnswers = ["Стол", "Стул", "Дверь"];
+		this.questionWord = {English: "Car", Russian: "Авто", PartOfSpeech: "Noun"};
+		const question = this.questionWord.English;
+		this.correctAnswer = this.questionWord.Russian;
 		this.$$("label").setValue(question);
-		possibleAnswers.splice(Math.floor(Math.random() * 4), 0, correctAnswer);
+		possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.questionWord.Russian);
 		for (let i = 0; i < possibleAnswers.length; i++) {
 			this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
 		}
+		const questionsTotal = 10;
+		this.$$("questionNumberLabel").setValue(`${this.questionNumber}/${questionsTotal}`);
 	}
 }
