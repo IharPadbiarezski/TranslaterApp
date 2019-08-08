@@ -30,5 +30,13 @@ export default {
 	Result: "Result",
 	Score: "Score",
 	Logout: "Logout",
-	Category: "Category"
+	Category: "Category",
+	Login: "Login",
+	Register: "Register",
+	"E-Mail Address": "E-Mail Address",
+	Password: "Password",
+	"Incorrect name!": "Incorrect name!",
+	"The name is required.": "The name is required.",
+	"The password confirmation does not match.": "The password confirmation does not match.",
+	"Confirm Password": "Confirm Password"
 };

@@ -13,7 +13,7 @@ export default {
 	"Add Word": "Добавить Слово",
 	Save: "Сохранить",
 	Cancel: "Отмена",
-	Name: "Name",
+	Name: "Имя",
 	"Create Word": "Создать Слово",
 	"Part Of Speech": "Часть Речи",
 	"Take Test": "Пройти Тест",
@@ -30,5 +30,13 @@ export default {
 	Result: "Результат",
 	Score: "Оценка",
 	Logout: "Выйти",
-	Category: "Категория"
+	Category: "Категория",
+	Login: "Авторизация",
+	Register: "Регистрация",
+	"E-Mail Address": "Эл. почта",
+	Password: "Пароль",
+	"Incorrect name!": "Неверное имя!",
+	"The name is required.": "Имя обязательно.",
+	"The password confirmation does not match.": "Пароли не соответствуют.",
+	"Confirm Password": "Подтвердите пароль"
 };
