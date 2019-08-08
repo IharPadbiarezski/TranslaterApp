@@ -30,7 +30,7 @@ export default class ResultWindow extends JetView {
 				},
 				{
 					view: "button",
-					value: "Start Test",
+					value: "Start Again",
 					hotkey: "enter",
 					css: "webix_primary",
 					click: () => {

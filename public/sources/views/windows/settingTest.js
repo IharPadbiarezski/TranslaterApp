@@ -39,7 +39,7 @@ export default class SettingTestWindow extends JetView {
 						},
 						{
 							view: "button",
-							value: "Start Again",
+							value: "Start Test",
 							hotkey: "enter",
 							css: "webix_primary",
 							click: () => {

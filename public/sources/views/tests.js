@@ -1,6 +1,7 @@
 import {JetView} from "webix-jet";
 import SettingTestWindow from "./windows/settingTest";
 import ResultWindow from "./windows/result";
+import Storage from "./localStorage/localStorage";
 
 export default class TestsView extends JetView {
 	config() {
@@ -52,6 +53,7 @@ export default class TestsView extends JetView {
 						if (this.questionNumber === 10) {
 							this.resultWindow.showWindow({Result: this.score});
 							this.setCurrentScore();
+							this.saveResult(this.score);
 						}
 					},
 					x: 0,
@@ -70,6 +72,7 @@ export default class TestsView extends JetView {
 						if (this.questionNumber === 10) {
 							this.resultWindow.showWindow({Result: this.score});
 							this.setCurrentScore();
+							this.saveResult(this.score);
 						}
 					},
 					x: 3,
@@ -87,6 +90,8 @@ export default class TestsView extends JetView {
 						this.showQuestion();
 						if (this.questionNumber === 10) {
 							this.resultWindow.showWindow({Result: this.score});
+							this.setCurrentScore();
+							this.saveResult(this.score);
 						}
 					},
 					x: 0,
@@ -104,6 +109,8 @@ export default class TestsView extends JetView {
 						this.showQuestion();
 						if (this.questionNumber === 10) {
 							this.resultWindow.showWindow({Result: this.score});
+							this.setCurrentScore();
+							this.saveResult(this.score);
 						}
 					},
 					x: 3,
@@ -125,15 +132,6 @@ export default class TestsView extends JetView {
 					dx: 6,
 					dy: 1
 				}
-				// {
-				// 	css: "boxy webix_danger",
-				// 	view: "button",
-				// 	label: "Check",
-				// 	x: 1,
-				// 	y: 5,
-				// 	dx: 1,
-				// 	dy: 1
-				// }
 			]
 		};
 		return ui;
@@ -145,6 +143,7 @@ export default class TestsView extends JetView {
 		this.settingTestWindow.showWindow();
 
 		this.on(this.app, "test:showquestion", (groupName, id) => {
+			this.groupName = groupName;
 			this.$$("categoryLabel").setValue(`Category: ${groupName}`);
 			this.dischargeParameters();
 			this.showQuestion(groupName);
@@ -195,5 +194,19 @@ export default class TestsView extends JetView {
 		}
 		const questionsTotal = 10;
 		this.$$("questionNumberLabel").setValue(`${this.questionNumber}/${questionsTotal}`);
+	}
+
+	saveResult(score) {
+		const resultsAmount = Storage.getResultsFromStorage().length;
+		const serialNumber = resultsAmount + 1;
+		const myformat = webix.Date.dateToStr("%Y-%m-%d %H:%i:%s");
+		const formatedCurrentDate = myformat(new Date());
+		const result = {
+			SerialNumber: serialNumber,
+			TestDate: formatedCurrentDate,
+			Result: score,
+			GroupName: this.groupName
+		};
+		Storage.saveIntoStorage(result);
 	}
 }

@@ -1,6 +1,5 @@
 import {JetView} from "webix-jet";
 import {getData} from "../models/resultsFromLS";
-import Storage from "./localStorage/localStorage";
 
 export default class ResultsView extends JetView {
 	config() {
@@ -18,11 +17,11 @@ export default class ResultsView extends JetView {
 				{
 					id: "TestDate",
 					header: "Test Date",
-					fillspace: true
+					fillspace: true,
 				},
 				{
-					id: "SerialNumber",
-					header: "Serial Number",
+					id: "Result",
+					header: "Result",
 					fillspace: true
 				}
 			]
@@ -34,7 +33,7 @@ export default class ResultsView extends JetView {
 	init() {
 		const resultsLS = getData();
 		if (resultsLS) {
-			this.$$("datatable").parse(resultsLS);
+			this.$$("table").parse(resultsLS);
 		}
 	}
 }

@@ -1,11 +1,11 @@
 export default class Storage {
 	static saveIntoStorage(result) {
-		let results = this.getresultsFromStorage();
+		let results = this.getResultsFromStorage();
 		results.push(result);
 		localStorage.setItem("results", JSON.stringify(results));
 	}
 
-	static getresultsFromStorage() {
+	static getResultsFromStorage() {
 		let results;
 		if (localStorage.getItem("results") === null) {
 			results = [];
@@ -16,7 +16,7 @@ export default class Storage {
 		return results;
 	}
 
-	static removeresultLocalStorage(id) {
+	static removeResultLocalStorage(id) {
 		let resultsLS = this.getresultsFromStorage();
 		resultsLS.forEach((resultLS, index) => {
 			if (resultLS.id === id) {
