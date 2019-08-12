@@ -25,7 +25,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test__label",
 					view: "label",
-					localId: "label",
+					localId: "questionWordLabel",
 					align: "center",
 					x: 2,
 					y: 0,
@@ -46,16 +46,7 @@ export default class TestsView extends JetView {
 					css: "boxy",
 					view: "button",
 					localId: "answerButton_1",
-					click: () => {
-						const answer = this.$$("answerButton_1").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					click: () => this.processAnswer("answerButton_1"),
 					x: 0,
 					y: 1,
 					dx: 3,
@@ -65,16 +56,7 @@ export default class TestsView extends JetView {
 					css: "boxy",
 					view: "button",
 					localId: "answerButton_2",
-					click: () => {
-						const answer = this.$$("answerButton_2").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					click: () => this.processAnswer("answerButton_2"),
 					x: 3,
 					y: 1,
 					dx: 3,
@@ -84,16 +66,7 @@ export default class TestsView extends JetView {
 					css: "boxy",
 					view: "button",
 					localId: "answerButton_3",
-					click: () => {
-						const answer = this.$$("answerButton_3").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					click: () => this.processAnswer("answerButton_3"),
 					x: 0,
 					y: 3,
 					dx: 3,
@@ -103,16 +76,7 @@ export default class TestsView extends JetView {
 					css: "boxy",
 					view: "button",
 					localId: "answerButton_4",
-					click: () => {
-						const answer = this.$$("answerButton_4").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					click: () => this.processAnswer("answerButton_4"),
 					x: 3,
 					y: 3,
 					dx: 3,
@@ -156,6 +120,17 @@ export default class TestsView extends JetView {
 		});
 	}
 
+	processAnswer(buttonId) {
+		const answer = this.$$(`${buttonId}`).getValue();
+		this.checkAnswer(answer);
+		this.showQuestion();
+		if (this.questionNumber === 10) {
+			this.resultWindow.showWindow({Result: this.score});
+			this.setCurrentScore();
+			this.saveResult(this.score);
+		}
+	}
+
 	dischargeParameters() {
 		this.score = 0;
 		this.questionNumber = 0;
@@ -188,7 +163,7 @@ export default class TestsView extends JetView {
 		this.questionWord = {English: "Car", Russian: "Авто", PartOfSpeech: "Noun"};
 		const question = this.questionWord.English;
 		this.correctAnswer = this.questionWord.Russian;
-		this.$$("label").setValue(question);
+		this.$$("questionWordLabel").setValue(question);
 		possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.questionWord.Russian);
 		for (let i = 0; i < possibleAnswers.length; i++) {
 			this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
@@ -198,16 +173,16 @@ export default class TestsView extends JetView {
 	}
 
 	saveResult(score) {
-		const resultsAmount = Storage.getResultsFromStorage().length;
+		const resultsAmount = Storage.getResultsOfTestsFromLocalStorage().length;
 		const serialNumber = resultsAmount + 1;
 		const myformat = webix.Date.dateToStr("%Y-%m-%d %H:%i:%s");
 		const formatedCurrentDate = myformat(new Date());
-		const result = {
+		const resultOfTest = {
 			SerialNumber: serialNumber,
 			TestDate: formatedCurrentDate,
 			Result: score,
 			GroupName: this.groupName
 		};
-		Storage.saveIntoStorage(result);
+		Storage.saveResultOfTestIntoLocalStorage(resultOfTest);
 	}
 }

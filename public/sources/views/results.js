@@ -1,5 +1,5 @@
 import {JetView} from "webix-jet";
-import {getData} from "../models/resultsFromLS";
+import {getResultsOfTests} from "../models/resultsOfTestsFromLocalStorage";
 
 export default class ResultsView extends JetView {
 	config() {
@@ -31,9 +31,9 @@ export default class ResultsView extends JetView {
 	}
 
 	init() {
-		const resultsLS = getData();
-		if (resultsLS) {
-			this.$$("table").parse(resultsLS);
+		const resultsFromLocalStorage = getResultsOfTests();
+		if (resultsFromLocalStorage) {
+			this.$$("table").parse(resultsFromLocalStorage);
 		}
 	}
 }

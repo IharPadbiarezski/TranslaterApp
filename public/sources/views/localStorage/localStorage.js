@@ -1,29 +1,21 @@
 export default class Storage {
-	static saveIntoStorage(result) {
-		let results = this.getResultsFromStorage();
-		results.push(result);
-		localStorage.setItem("results", JSON.stringify(results));
+	static saveResultOfTestIntoLocalStorage(resultOfTest) {
+		let resultsOfTests = this.getResultsOfTestsFromLocalStorage();
+		resultsOfTests.push(resultOfTest);
+		localStorage.setItem("resultsOfTests", JSON.stringify(resultsOfTests));
 	}
 
-	static getResultsFromStorage() {
-		let results;
-		if (localStorage.getItem("results") === null) {
-			results = [];
+	static getResultsOfTestsFromLocalStorage() {
+		if (localStorage.getItem("resultsOfTests") === null) {
+			return [];
 		}
-		else {
-			results = JSON.parse(localStorage.getItem("results"));
-		}
-		return results;
+		return JSON.parse(localStorage.getItem("resultsOfTests"));
 	}
 
-	static removeResultLocalStorage(id) {
-		let resultsLS = this.getResultsFromStorage();
-		resultsLS.forEach((resultLS, index) => {
-			if (resultLS.id === id) {
-				resultsLS.splice(index, 1);
-			}
-		});
-		localStorage.setItem("results", JSON.stringify(resultsLS));
+	static removeResultOfTestLocalStorage(id) {
+		let resultsOfTests = this.getResultsOfTestsFromStorage();
+		resultsOfTests.filter(resultOfTest => resultOfTest.id !== id);
+		localStorage.setItem("resultsOfTests", JSON.stringify(resultsOfTests));
 	}
 
 	static clearLocalStorage() {
