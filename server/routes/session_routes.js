@@ -6,5 +6,4 @@ module.exports = (app) => {
     app.post(`${path.status}`, sessionController.status);
     app.post(`${path.logout}`, sessionController.logout);
     app.post(`${path.register}`, sessionController.register);
-    app.post(`${path.resetPassword}`, sessionController.resetPassword);
 };

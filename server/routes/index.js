@@ -7,7 +7,7 @@ const wordsGroupsRoutes = require("./wordsGroups_routes");
 
 module.exports = (app) => {
 	translatorUsersRoutes(app);
-	// sessionRoutes(app);
+	sessionRoutes(app);
 	partsOfSpeechRoutes(app);
 	wordsRoutes(app);
 	wordsGroupsRoutes(app);
