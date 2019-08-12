@@ -23,7 +23,7 @@ if (!BUILD_AS_MODULE) {
 		let app = new MyApp();
 		app.render();
 		app.attachEvent("app:error:resolve", () => {
-			webix.delay(() => app.show("/top/authorization"));
+			webix.delay(() => app.show("/top/login"));
 		});
 		app.use(plugins.Locale, {
 			webix: {
