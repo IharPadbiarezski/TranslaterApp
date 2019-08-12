@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import {wordsGroups} from "../../models/wordsGroups";
+import {urls} from "../../config/urls";
 
 export default class SettingTestWindow extends JetView {
 	get formId() {
@@ -52,9 +53,7 @@ export default class SettingTestWindow extends JetView {
 							css: "webix_primary",
 							click: () => {
 								const groupId = this.$$(`${this.formId}`).getValues().id;
-								const groupName = wordsGroups.getItem(groupId).Name;
-								this.app.callEvent("test:showquestion", [groupName, groupId]);
-								this.hideWindow();
+								this.checkNumberOfWords(groupId);
 							}
 						},
 						{
@@ -84,6 +83,25 @@ export default class SettingTestWindow extends JetView {
 				]
 			}
 		};
+	}
+
+	checkNumberOfWords(groupId) {
+		webix.ajax().post(`${urls.getLengthOfAvailableWords}?group=${groupId}`, "", (response) => {
+			const length = JSON.parse(response).Length;
+			if (length > 3) {
+				this.displayTestScreen(groupId);
+			}
+			else {
+				const text = "Please, add more new words to the current category to start playing! Or try to choose another category!";
+				webix.message({type: "error", text});
+			}
+		});
+	}
+
+	displayTestScreen(groupId) {
+		const groupName = wordsGroups.getItem(groupId).Name;
+		this.app.callEvent("test:showquestion", [groupName, groupId]);
+		this.hideWindow();
 	}
 
 	showWindow() {

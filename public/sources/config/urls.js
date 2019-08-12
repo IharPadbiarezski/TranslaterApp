@@ -6,6 +6,7 @@ export const urls = {
 	partsOfSpeech: `${mainUrl}partsofspeech`,
 	resultsOfTests: `${mainUrl}resultsOfTests`,
 	getOptions: `${mainUrl}getOptions`,
+	getLengthOfAvailableWords: `${mainUrl}getLengthOfAvailableWords`,
 	status: `${mainUrl}login/status`,
 	login: `${mainUrl}login/`,
 	logout: `${mainUrl}logout`,

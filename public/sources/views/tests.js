@@ -158,7 +158,7 @@ export default class TestsView extends JetView {
 		const answer = this.$$(`${buttonId}`).getValue();
 		this.checkAnswer(answer);
 		this.showQuestion();
-		if (this.questionNumber === 10) {
+		if (this.questionNumber === this.questionsTotal) {
 			this.resultWindow.showWindow({Result: this.score});
 			this.setCurrentScore();
 			this.saveResult(this.score);
@@ -202,8 +202,11 @@ export default class TestsView extends JetView {
 			for (let i = 0; i < possibleAnswers.length; i++) {
 				this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
 			}
-			const questionsTotal = 10;
-			this.$$(`${this.questionNumberLabelId}`).setValue(`${this.questionNumber}/${questionsTotal}`);
+			this.questionsTotal = 10;
+			if (test.WordsAmount < 10) {
+				this.questionsTotal = test.WordsAmount;
+			}
+			this.$$(`${this.questionNumberLabelId}`).setValue(`${this.questionNumber}/${this.questionsTotal}`);
 		});
 	}
 

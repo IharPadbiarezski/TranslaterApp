@@ -99,9 +99,23 @@ exports.getOptions = (req, res) => {
             }
             const test = {
                 correctAnswer,
-                answers
+                answers,
+                WordsAmount: possibleAnswers.length
             }
             res.send(test);
         }
+	});
+}
+
+exports.getLengthOfAvailableWords = (req, res) => {
+    const query = {
+        GroupId: req.query.group
+    }
+    Words.findMany( query, (err, items) => {
+		if (err) {
+            res.send({error: "An error has occured"});
+        }
+        const possibleAnswers = items.filter((item) => item.PartOfSpeech === correctAnswer.PartOfSpeech);
+        res.send({Length: possibleAnswers.length});
 	});
 }

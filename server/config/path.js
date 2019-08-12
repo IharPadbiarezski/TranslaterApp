@@ -7,6 +7,7 @@ module.exports = {
 	translatorUsers: `${version}translatorUsers/`,
 	resultsOfTests: `${version}resultsOfTests/`,
 	getOptions: `${version}getOptions`,
+	getLengthOfAvailableWords: `${version}getLengthOfAvailableWords`,
 	login: `${version}login`,
 	status: `${version}login/status`,
 	logout: `${version}logout`,

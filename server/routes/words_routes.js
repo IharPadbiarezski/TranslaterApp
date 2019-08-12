@@ -8,4 +8,5 @@ module.exports = (app) => {
 	app.post(`${path.words}`, wordsController.create);
 	app.put(`${path.words}:id`, wordsController.update);
 	app.post(`${path.getOptions}`, wordsController.getOptions);
+	app.post(`${path.getLengthOfAvailableWords}`, wordsController.getLengthOfAvailableWords);
 };
