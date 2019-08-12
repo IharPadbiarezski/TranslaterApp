@@ -1,7 +1,7 @@
-const WordsGroups = require('../models/wordsGroups');
+const ResultsOfTests = require('../models/resultsOfTests');
 
 exports.all = (req, res) => {
-    WordsGroups.all((err, items) => {
+    ResultsOfTests.all((err, items) => {
         if (err) {
             res.send({error: "An error has occured"});
         }
@@ -16,7 +16,7 @@ exports.all = (req, res) => {
 
 exports.findById = (req, res) => {
     const id = req.params.id;
-	WordsGroups.findById(id, (err, item) => {
+	ResultsOfTests.findById(id, (err, item) => {
 		if (err) {
             res.send({error: "An error has occured"});
         }
@@ -27,14 +27,13 @@ exports.findById = (req, res) => {
 };
 
 exports.create = (req, res) => {
-	const wordsGroup = {
-        Name: req.body.Name,
-        CreationDate: req.body.CreationDate,
-        Amount: req.body.Amount,
+	const resultOfTest = {
+        TestDate: req.body.TestDate,
+        Result: req.body.Result,
         UserId: req.body.UserId
     };
     
-	WordsGroups.create(wordsGroup, (err, result) => {
+	ResultsOfTests.create(resultOfTest, (err, result) => {
 		if (err) {
             res.send({error: "An error has occured"});
         }
@@ -47,18 +46,18 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     const id = req.params.id;
-    const wordsGroup = {
-        Name: req.body.Name,
-        CreationDate: req.body.CreationDate,
-        Amount: req.body.Amount
+    const resultOfTest = {
+        TestDate: req.body.TestDate,
+        Result: req.body.Result,
+        UserName: req.body.UserName
     };
 
-	WordsGroups.update(id, wordsGroup, (err) => {
+	ResultsOfTests.update(id, resultOfTest, (err) => {
         if (err) {
             res.send({error: "An error has occured"});
         }
         else {
-            res.send(wordsGroup);
+            res.send(resultOfTest);
         }
 		}
 	);
@@ -66,7 +65,7 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
     const id = req.params.id;
-	WordsGroups.delete(id, (err) => {
+	ResultsOfTests.delete(id, (err) => {
         if (err) {
             res.send({error: "An error has occured"});
         }

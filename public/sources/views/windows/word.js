@@ -69,11 +69,10 @@ export default class WordWindow extends JetView {
 								if (this.$$("form").validate()) {
 									const values = this.$$("form").getValues();
 									const id = this.getParam("id", true);
+									const user = this.app.getService("user");
+									const userId = user.getUser().id;
 									values.GroupId = id;
-									// Change User Id field after use User plugin
-									values.UserId = "1";
-									let currentAmount = wordsGroups.getItem(id).Amount;
-									wordsGroups.updateItem(id, {Amount: ++currentAmount});
+									values.UserId = userId;
 									words.add(values);
 									this.$$("form").clear();
 									this.hideWindow();

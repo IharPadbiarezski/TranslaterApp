@@ -1,7 +1,7 @@
 import {JetView} from "webix-jet";
 import SettingTestWindow from "./windows/settingTest";
 import ResultWindow from "./windows/result";
-import Storage from "./localStorage/localStorage";
+import {resultsOfTests} from "../models/resultsOfTests";
 
 export default class TestsView extends JetView {
 	config() {
@@ -198,16 +198,16 @@ export default class TestsView extends JetView {
 	}
 
 	saveResult(score) {
-		const resultsAmount = Storage.getResultsFromStorage().length;
-		const serialNumber = resultsAmount + 1;
 		const myformat = webix.Date.dateToStr("%Y-%m-%d %H:%i:%s");
 		const formatedCurrentDate = myformat(new Date());
+		const user = this.app.getService("user");
+		const userId = user.getUser().id;
 		const result = {
-			SerialNumber: serialNumber,
 			TestDate: formatedCurrentDate,
 			Result: score,
-			GroupName: this.groupName
+			GroupName: this.groupName,
+			UserId: userId
 		};
-		Storage.saveIntoStorage(result);
+		resultsOfTests.add(result);
 	}
 }

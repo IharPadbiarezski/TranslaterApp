@@ -4,6 +4,7 @@ export const urls = {
 	wordsGroups: `${mainUrl}wordsgroups`,
 	words: `${mainUrl}words`,
 	partsOfSpeech: `${mainUrl}partsofspeech`,
+	resultsOfTests: `${mainUrl}resultsOfTests`,
 	status: `${mainUrl}login/status`,
 	login: `${mainUrl}login/`,
 	logout: `${mainUrl}logout`,

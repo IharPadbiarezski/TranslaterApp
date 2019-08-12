@@ -1,5 +1,5 @@
 import {JetView} from "webix-jet";
-import {getData} from "../models/resultsFromLS";
+import {resultsOfTests} from "../models/resultsOfTests";
 
 export default class ResultsView extends JetView {
 	config() {
@@ -10,7 +10,7 @@ export default class ResultsView extends JetView {
 			scroll: true,
 			columns: [
 				{
-					id: "SerialNumber",
+					id: "index",
 					header: "#",
 					fillspace: true
 				},
@@ -24,16 +24,25 @@ export default class ResultsView extends JetView {
 					header: _("Result"),
 					fillspace: true
 				}
-			]
+			],
+			on: {
+				"data->onStoreUpdated": () => {
+					resultsOfTests.data.each((obj, i) => {
+						obj.index = i + 1;
+					});
+				}
+			}
 		};
 
 		return table;
 	}
 
 	init() {
-		const resultsLS = getData();
-		if (resultsLS) {
-			this.$$("table").parse(resultsLS);
-		}
+		const user = this.app.getService("user");
+		const currentUser = user.getUser().id;
+		resultsOfTests.waitData.then(() => {
+			resultsOfTests.data.filter(result => result.UserId === currentUser);
+			this.$$("table").parse(resultsOfTests);
+		});
 	}
 }

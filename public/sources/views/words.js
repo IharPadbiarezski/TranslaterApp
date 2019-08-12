@@ -75,8 +75,14 @@ export default class VocabularyTable extends JetView {
 		};
 	}
 
-	init() {
-		this.$$("table").sync(words);
+	urlChange() {
+		const user = this.app.getService("user");
+		const currentUser = user.getUser().id;
 		this.wordWindow = this.ui(WordWindow);
+		const groupId = this.getParam("id", true);
+		words.waitData.then(() => {
+			words.data.filter(result => result.UserId === currentUser && result.GroupId === groupId);
+			this.$$("table").sync(words);
+		});
 	}
 }

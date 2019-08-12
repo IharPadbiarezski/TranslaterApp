@@ -38,5 +38,6 @@ export default {
 	"Incorrect name!": "Неверное имя!",
 	"The name is required.": "Имя обязательно.",
 	"The password confirmation does not match.": "Пароли не соответствуют.",
-	"Confirm Password": "Подтвердите пароль"
+	"Confirm Password": "Подтвердите пароль",
+	"Hello": "Здравствуйте"
 };

@@ -60,9 +60,12 @@ export default class VocabularyView extends JetView {
 	}
 
 	init() {
-		this.$$("wordsGroupList").sync(wordsGroups);
+		const user = this.app.getService("user");
+		const currentUser = user.getUser().id;
 		this.groupWindow = this.ui(GroupWindow);
 		wordsGroups.waitData.then(() => {
+			wordsGroups.data.filter(result => result.UserId === currentUser);
+			this.$$("wordsGroupList").sync(wordsGroups);
 			let id = this.getParam("id") || wordsGroups.getFirstId();
 			if (id && wordsGroups.exists(id)) {
 				this.$$("wordsGroupList").select(id);

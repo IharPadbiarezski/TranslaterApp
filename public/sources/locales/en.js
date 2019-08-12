@@ -38,5 +38,6 @@ export default {
 	"Incorrect name!": "Incorrect name!",
 	"The name is required.": "The name is required.",
 	"The password confirmation does not match.": "The password confirmation does not match.",
-	"Confirm Password": "Confirm Password"
+	"Confirm Password": "Confirm Password",
+	"Hello": "Hello"
 };

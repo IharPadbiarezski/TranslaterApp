@@ -37,7 +37,7 @@ export default class TopView extends JetView {
 							label: _("Logout"),
 							autowidth: true,
 							click: () => {
-								// this.show("/logout");
+								this.show("/logout");
 							}
 						}
 					]
@@ -91,13 +91,18 @@ export default class TopView extends JetView {
 
 	init() {
 		this.use(plugins.Menu, "top:menu");
-
-		this.$$("userGreeting").setValue("Hello, dear Igor!");
+		const user = this.app.getService("user");
+		const userName = user.getUser().name;
+		this.setGreeting(userName);
 	}
 
 	toggleLanguage() {
 		const langs = this.app.getService("locale");
 		const value = this.$$("lang").getValue();
 		langs.setLang(value);
+	}
+
+	setGreeting(name) {
+		this.$$("userGreeting").setValue(`${name}`);
 	}
 }

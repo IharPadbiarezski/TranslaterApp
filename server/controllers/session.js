@@ -3,8 +3,8 @@ const crypto = require('crypto');
 const validator = require("email-validator");
 
 exports.login = (req, res) => {
-    const email = req.body.email
-    const query = {Email: email}
+    const name = req.body.name
+    const query = {Name: name}
     Sessions.findOne(query, (err, item) => {
         const password = req.body.password;
         if (item) {
@@ -16,9 +16,9 @@ exports.login = (req, res) => {
             else if (hash === item.Password) {
                 const user = {
                     id: item._id,
-                    name: item.Name,
-                    email
+                    name: item.Name
                 }
+                console.log(user)
                 req.session.user = user;
                 res.send(user);
             }
