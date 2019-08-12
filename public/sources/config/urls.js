@@ -5,6 +5,7 @@ export const urls = {
 	words: `${mainUrl}words`,
 	partsOfSpeech: `${mainUrl}partsofspeech`,
 	resultsOfTests: `${mainUrl}resultsOfTests`,
+	getOptions: `${mainUrl}getOptions`,
 	status: `${mainUrl}login/status`,
 	login: `${mainUrl}login/`,
 	logout: `${mainUrl}logout`,

@@ -43,9 +43,9 @@ export default class SettingTestWindow extends JetView {
 							hotkey: "enter",
 							css: "webix_primary",
 							click: () => {
-								const id = this.$$("form").getValues().id;
-								const groupName = wordsGroups.getItem(id).Name;
-								this.app.callEvent("test:showquestion", [groupName, id]);
+								const groupId = this.$$("form").getValues().id;
+								const groupName = wordsGroups.getItem(groupId).Name;
+								this.app.callEvent("test:showquestion", [groupName, groupId]);
 								this.hideWindow();
 							}
 						},

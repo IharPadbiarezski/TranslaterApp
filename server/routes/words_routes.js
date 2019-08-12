@@ -7,4 +7,5 @@ module.exports = (app) => {
 	app.delete(`${path.words}:id`, wordsController.delete);
 	app.post(`${path.words}`, wordsController.create);
 	app.put(`${path.words}:id`, wordsController.update);
+	app.post(`${path.getOptions}`, wordsController.getOptions);
 };

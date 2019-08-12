@@ -52,10 +52,8 @@ export default class GroupWindow extends JetView {
 									const values = this.$$("form").getValues();
 									const user = this.app.getService("user");
 									const userId = user.getUser().id;
-									console.log(userId);
 									values.Amount = 0;
 									values.CreationDate = new Date();
-									//// Place for user plugin to set user name
 									values.UserId = userId;
 									wordsGroups.add(values);
 									this.$$("form").clear();

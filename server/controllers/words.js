@@ -1,4 +1,5 @@
 const Words = require('../models/words');
+const PartsOfSpeech = require('../models/partsOfSpeech');
 
 exports.all = (req, res) => {
     Words.all((err, items) => {
@@ -74,3 +75,33 @@ exports.delete = (req, res) => {
         }
 	});
 };
+
+exports.getOptions = (req, res) => {
+    const query = {
+        GroupId: req.query.group
+    }
+    Words.findMany( query, (err, items) => {
+		if (err) {
+            res.send({error: "An error has occured"});
+        }
+        else {
+            const correctAnswer = items.splice(Math.floor(Math.random() * items.length), 1)[0];
+            const possibleAnswers = items.filter((item) => item.PartOfSpeech === correctAnswer.PartOfSpeech);
+            let answers = [];
+            if (possibleAnswers.length >= 3) {
+                for (let i = 0; i < 3; i++) {
+                    const answer = possibleAnswers.splice(Math.floor(Math.random() * possibleAnswers.length), 1)[0];
+                    answers.push(answer.Russian);
+                }
+            }
+            else {
+                answers = possibleAnswers;
+            }
+            const test = {
+                correctAnswer,
+                answers
+            }
+            res.send(test);
+        }
+	});
+}

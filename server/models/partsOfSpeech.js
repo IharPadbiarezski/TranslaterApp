@@ -32,3 +32,9 @@ exports.delete = (id, cb) => {
 		}
 	);
 }
+
+exports.findOne = (query, cb) => {
+	db.get().collection("partsOfSpeech").findOne(query, (err, item) => {
+		cb(err, item);
+	});
+};

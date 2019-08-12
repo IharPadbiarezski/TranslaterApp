@@ -1,6 +1,5 @@
 import {JetView} from "webix-jet";
 import {words} from "../../models/words";
-import {wordsGroups} from "../../models/wordsGroups";
 import {partsOfSpeech} from "../../models/partsOfSpeech";
 
 export default class WordWindow extends JetView {

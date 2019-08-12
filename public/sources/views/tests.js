@@ -2,6 +2,7 @@ import {JetView} from "webix-jet";
 import SettingTestWindow from "./windows/settingTest";
 import ResultWindow from "./windows/result";
 import {resultsOfTests} from "../models/resultsOfTests";
+import {urls} from "../config/urls";
 
 export default class TestsView extends JetView {
 	config() {
@@ -143,8 +144,9 @@ export default class TestsView extends JetView {
 		this.resultWindow = this.ui(ResultWindow);
 		this.settingTestWindow.showWindow();
 
-		this.on(this.app, "test:showquestion", (groupName) => {
+		this.on(this.app, "test:showquestion", (groupName, groupId) => {
 			this.groupName = groupName;
+			this.groupId = groupId;
 			this.$$("categoryLabel").setValue(`${_("Category")}: ${groupName}`);
 			this.dischargeParameters();
 			this.showQuestion(groupName);
@@ -167,7 +169,9 @@ export default class TestsView extends JetView {
 
 	checkAnswer(userAnswer) {
 		if (userAnswer === this.correctAnswer) {
-			if (this.questionWord.PartOfSpeech === "Noun" || this.questionWord.PartOfSpeech === "Verb") {
+			const idForNoun = "5d4c21467fa98d49d08e0c4a";
+			const idForVerb = "5d4c21607fa98d49d08e0c4b";
+			if (this.PartOfSpeech === idForNoun || this.PartOfSpeech === idForVerb) {
 				this.score += 2;
 			}
 			else {
@@ -178,23 +182,22 @@ export default class TestsView extends JetView {
 		++this.questionNumber;
 	}
 
-	makeRequest() {
-
-	}
 
 	showQuestion() {
-		// Here would be ajax request and every time is called the app get new object
-		let possibleAnswers = ["Стол", "Стул", "Дверь"];
-		this.questionWord = {English: "Car", Russian: "Авто", PartOfSpeech: "Noun"};
-		const question = this.questionWord.English;
-		this.correctAnswer = this.questionWord.Russian;
-		this.$$("label").setValue(question);
-		possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.questionWord.Russian);
-		for (let i = 0; i < possibleAnswers.length; i++) {
-			this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
-		}
-		const questionsTotal = 10;
-		this.$$("questionNumberLabel").setValue(`${this.questionNumber}/${questionsTotal}`);
+		webix.ajax().post(`${urls.getOptions}?group=${this.groupId}`, "", (response) => {
+			const test = JSON.parse(response);
+			const question = test.correctAnswer.English;
+			this.PartOfSpeech = test.correctAnswer.PartOfSpeech;
+			this.correctAnswer = test.correctAnswer.Russian;
+			this.$$("label").setValue(question);
+			const possibleAnswers = test.answers;
+			possibleAnswers.splice(Math.floor(Math.random() * 4), 0, test.correctAnswer.Russian);
+			for (let i = 0; i < possibleAnswers.length; i++) {
+				this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
+			}
+			const questionsTotal = 10;
+			this.$$("questionNumberLabel").setValue(`${this.questionNumber}/${questionsTotal}`);
+		});
 	}
 
 	saveResult(score) {

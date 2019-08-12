@@ -18,7 +18,6 @@ exports.login = (req, res) => {
                     id: item._id,
                     name: item.Name
                 }
-                console.log(user)
                 req.session.user = user;
                 res.send(user);
             }
