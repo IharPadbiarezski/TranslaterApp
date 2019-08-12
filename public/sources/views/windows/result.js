@@ -1,6 +1,10 @@
 import {JetView} from "webix-jet";
 
 export default class ResultWindow extends JetView {
+	get templateId() {
+		return "template";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const toolbarTop = {
@@ -51,7 +55,7 @@ export default class ResultWindow extends JetView {
 		};
 
 		const template = {
-			localId: "template",
+			localId: this.templateId,
 			css: "result__template",
 			template: obj => obj.Result
 		};
@@ -73,7 +77,7 @@ export default class ResultWindow extends JetView {
 	}
 
 	showWindow(values) {
-		this.$$("template").setValues(values);
+		this.$$(`${this.templateId}`).setValues(values);
 		this.getRoot().show();
 	}
 

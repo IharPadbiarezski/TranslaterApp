@@ -5,6 +5,38 @@ import {resultsOfTests} from "../models/resultsOfTests";
 import {urls} from "../config/urls";
 
 export default class TestsView extends JetView {
+	get categoryLabelId() {
+		return "categoryLabel";
+	}
+
+	get questionWordLabelId() {
+		return "questionWordLabel";
+	}
+
+	get questionNumberLabelId() {
+		return "questionNumberLabel";
+	}
+
+	get answerButtonId1() {
+		return "answerButton_1";
+	}
+
+	get answerButtonId2() {
+		return "answerButton_2";
+	}
+
+	get answerButtonId3() {
+		return "answerButton_3";
+	}
+
+	get answerButtonId4() {
+		return "answerButton_4";
+	}
+
+	get scoreId() {
+		return "score";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 
@@ -16,7 +48,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test--category__label",
 					view: "label",
-					localId: "categoryLabel",
+					localId: this.categoryLabelId,
 					align: "center",
 					x: 0,
 					y: 0,
@@ -26,7 +58,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test__label",
 					view: "label",
-					localId: "label",
+					localId: this.questionWordLabelId,
 					align: "center",
 					x: 2,
 					y: 0,
@@ -36,7 +68,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test--question__label",
 					view: "label",
-					localId: "questionNumberLabel",
+					localId: this.questionNumberLabelId,
 					align: "center",
 					x: 4,
 					y: 0,
@@ -46,17 +78,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_1",
-					click: () => {
-						const answer = this.$$("answerButton_1").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					localId: this.answerButtonId1,
+					click: () => this.processAnswer(`${this.answerButtonId1}`),
 					x: 0,
 					y: 1,
 					dx: 3,
@@ -65,17 +88,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_2",
-					click: () => {
-						const answer = this.$$("answerButton_2").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					localId: this.answerButtonId2,
+					click: () => this.processAnswer(`${this.answerButtonId2}`),
 					x: 3,
 					y: 1,
 					dx: 3,
@@ -84,17 +98,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_3",
-					click: () => {
-						const answer = this.$$("answerButton_3").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					localId: this.answerButtonId3,
+					click: () => this.processAnswer(`${this.answerButtonId3}`),
 					x: 0,
 					y: 3,
 					dx: 3,
@@ -103,17 +108,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_4",
-					click: () => {
-						const answer = this.$$("answerButton_4").getValue();
-						this.checkAnswer(answer);
-						this.showQuestion();
-						if (this.questionNumber === 10) {
-							this.resultWindow.showWindow({Result: this.score});
-							this.setCurrentScore();
-							this.saveResult(this.score);
-						}
-					},
+					localId: this.answerButtonId4,
+					click: () => this.processAnswer(`${this.answerButtonId4}`),
 					x: 3,
 					y: 3,
 					dx: 3,
@@ -121,7 +117,7 @@ export default class TestsView extends JetView {
 				},
 				{
 					css: "boxy test__template",
-					localId: "score",
+					localId: this.scoreId,
 					template: (obj) => {
 						if (obj.Score || obj.Score === 0) {
 							return `${_("Score")}: ${obj.Score}`;
@@ -147,7 +143,7 @@ export default class TestsView extends JetView {
 		this.on(this.app, "test:showquestion", (groupName, groupId) => {
 			this.groupName = groupName;
 			this.groupId = groupId;
-			this.$$("categoryLabel").setValue(`${_("Category")}: ${groupName}`);
+			this.$$(`${this.categoryLabelId}`).setValue(`${_("Category")}: ${groupName}`);
 			this.dischargeParameters();
 			this.showQuestion(groupName);
 			this.setCurrentScore();
@@ -158,13 +154,24 @@ export default class TestsView extends JetView {
 		});
 	}
 
+	processAnswer(buttonId) {
+		const answer = this.$$(`${buttonId}`).getValue();
+		this.checkAnswer(answer);
+		this.showQuestion();
+		if (this.questionNumber === 10) {
+			this.resultWindow.showWindow({Result: this.score});
+			this.setCurrentScore();
+			this.saveResult(this.score);
+		}
+	}
+
 	dischargeParameters() {
 		this.score = 0;
 		this.questionNumber = 0;
 	}
 
 	setCurrentScore() {
-		this.$$("score").setValues({Score: this.score});
+		this.$$(`${this.scoreId}`).setValues({Score: this.score});
 	}
 
 	checkAnswer(userAnswer) {
@@ -189,14 +196,14 @@ export default class TestsView extends JetView {
 			const question = test.correctAnswer.English;
 			this.PartOfSpeech = test.correctAnswer.PartOfSpeech;
 			this.correctAnswer = test.correctAnswer.Russian;
-			this.$$("label").setValue(question);
+			this.$$(`${this.questionWordLabelId}`).setValue(question);
 			const possibleAnswers = test.answers;
 			possibleAnswers.splice(Math.floor(Math.random() * 4), 0, test.correctAnswer.Russian);
 			for (let i = 0; i < possibleAnswers.length; i++) {
 				this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
 			}
 			const questionsTotal = 10;
-			this.$$("questionNumberLabel").setValue(`${this.questionNumber}/${questionsTotal}`);
+			this.$$(`${this.questionNumberLabelId}`).setValue(`${this.questionNumber}/${questionsTotal}`);
 		});
 	}
 
@@ -205,12 +212,12 @@ export default class TestsView extends JetView {
 		const formatedCurrentDate = myformat(new Date());
 		const user = this.app.getService("user");
 		const userId = user.getUser().id;
-		const result = {
+		const resultOfTest = {
 			TestDate: formatedCurrentDate,
 			Result: score,
 			GroupName: this.groupName,
 			UserId: userId
 		};
-		resultsOfTests.add(result);
+		resultsOfTests.add(resultOfTest);
 	}
 }

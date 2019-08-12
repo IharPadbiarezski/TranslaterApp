@@ -4,11 +4,15 @@ import {words} from "../models/words";
 import GroupWindow from "./windows/group";
 
 export default class VocabularyView extends JetView {
+	get wordsGroupListId() {
+		return "wordsGroupList";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const wordsGroupsList = {
 			view: "list",
-			localId: "wordsGroupList",
+			localId: this.wordsGroupListId,
 			padding: "0",
 			borderless: true,
 			scroll: "auto",
@@ -34,7 +38,6 @@ export default class VocabularyView extends JetView {
 					type: "icon",
 					icon: "wxi-plus",
 					label: _("Create Group"),
-					localId: "createGroupButton",
 					autoheight: true,
 					css: "webix_primary",
 					click: () => {
@@ -65,10 +68,10 @@ export default class VocabularyView extends JetView {
 		this.groupWindow = this.ui(GroupWindow);
 		wordsGroups.waitData.then(() => {
 			wordsGroups.data.filter(result => result.UserId === currentUser);
-			this.$$("wordsGroupList").sync(wordsGroups);
+			this.$$(`${this.wordsGroupListId}`).sync(wordsGroups);
 			let id = this.getParam("id") || wordsGroups.getFirstId();
 			if (id && wordsGroups.exists(id)) {
-				this.$$("wordsGroupList").select(id);
+				this.$$(`${this.wordsGroupListId}`).select(id);
 			}
 			else {
 				this.show("helperTemplate");

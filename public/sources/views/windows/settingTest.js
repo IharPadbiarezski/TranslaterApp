@@ -2,6 +2,14 @@ import {JetView} from "webix-jet";
 import {wordsGroups} from "../../models/wordsGroups";
 
 export default class SettingTestWindow extends JetView {
+	get formId() {
+		return "form";
+	}
+
+	get comboId() {
+		return "combo";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const toolbar = {
@@ -18,12 +26,12 @@ export default class SettingTestWindow extends JetView {
 
 		const form = {
 			view: "form",
-			localId: "form",
+			localId: this.formId,
 			rows: [
 				{
 					view: "combo",
 					name: "id",
-					localId: "combo",
+					localId: this.comboId,
 					options: wordsGroups
 				},
 				{
@@ -43,7 +51,7 @@ export default class SettingTestWindow extends JetView {
 							hotkey: "enter",
 							css: "webix_primary",
 							click: () => {
-								const groupId = this.$$("form").getValues().id;
+								const groupId = this.$$(`${this.formId}`).getValues().id;
 								const groupName = wordsGroups.getItem(groupId).Name;
 								this.app.callEvent("test:showquestion", [groupName, groupId]);
 								this.hideWindow();
@@ -82,7 +90,7 @@ export default class SettingTestWindow extends JetView {
 		wordsGroups.waitData.then(() => {
 			const value = wordsGroups.getFirstId();
 			if (value) {
-				this.$$("combo").setValue(value);
+				this.$$(`${this.comboId}`).setValue(value);
 			}
 		});
 		this.getRoot().show();

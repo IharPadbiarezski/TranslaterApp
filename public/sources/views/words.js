@@ -4,11 +4,15 @@ import WordWindow from "./windows/word";
 import {partsOfSpeech} from "../models/partsOfSpeech";
 
 export default class VocabularyTable extends JetView {
+	get datatableId() {
+		return "table";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const table = {
 			view: "datatable",
-			localId: "table",
+			localId: this.datatableId,
 			scroll: true,
 			columns: [
 				{
@@ -41,7 +45,7 @@ export default class VocabularyTable extends JetView {
 					css: "webix_secondary",
 					autowidth: true,
 					click: () => {
-						webix.toExcel(this.$$("table"), {
+						webix.toExcel(this.getDatatable(), {
 							filename: "words",
 							name: "Words",
 							columns: {
@@ -57,7 +61,6 @@ export default class VocabularyTable extends JetView {
 					type: "icon",
 					icon: "wxi-plus",
 					label: _("Add Word"),
-					localId: "addWordButton",
 					autowidth: true,
 					css: "webix_primary",
 					click: () => {
@@ -82,7 +85,11 @@ export default class VocabularyTable extends JetView {
 		const groupId = this.getParam("id", true);
 		words.waitData.then(() => {
 			words.data.filter(result => result.UserId === currentUser && result.GroupId === groupId);
-			this.$$("table").sync(words);
+			this.getDatatable().sync(words);
 		});
+	}
+
+	getDatatable() {
+		return this.$$(`${this.datatableId}`);
 	}
 }

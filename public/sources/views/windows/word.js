@@ -3,6 +3,14 @@ import {words} from "../../models/words";
 import {partsOfSpeech} from "../../models/partsOfSpeech";
 
 export default class WordWindow extends JetView {
+	get formId() {
+		return "form";
+	}
+
+	get comboId() {
+		return "combo";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const toolbar = {
@@ -18,7 +26,7 @@ export default class WordWindow extends JetView {
 
 		const form = {
 			view: "form",
-			localId: "form",
+			localId: this.formId,
 			rows: [
 				{
 					view: "text",
@@ -41,7 +49,7 @@ export default class WordWindow extends JetView {
 				{
 					view: "combo",
 					name: "PartOfSpeech",
-					localId: "combo",
+					localId: this.comboId,
 					label: _("Part Of Speech"),
 					options: partsOfSpeech
 				},
@@ -64,19 +72,7 @@ export default class WordWindow extends JetView {
 							autowidth: true,
 							hotkey: "enter",
 							css: "webix_primary",
-							click: () => {
-								if (this.$$("form").validate()) {
-									const values = this.$$("form").getValues();
-									const id = this.getParam("id", true);
-									const user = this.app.getService("user");
-									const userId = user.getUser().id;
-									values.GroupId = id;
-									values.UserId = userId;
-									words.add(values);
-									this.$$("form").clear();
-									this.hideWindow();
-								}
-							}
+							click: () => this.addWord()
 						}
 					]
 				}
@@ -103,6 +99,27 @@ export default class WordWindow extends JetView {
 				]
 			}
 		};
+	}
+
+	getForm() {
+		return this.$$(`${this.formId}`);
+	}
+
+	addWord() {
+		const addWordForm = this.getForm();
+		if (addWordForm.validate()) {
+			const values = addWordForm.getValues();
+			const id = this.getParam("id", true);
+			const user = this.app.getService("user");
+			const userId = user.getUser().id;
+			values.GroupId = id;
+			// Change User Id field after use User plugin
+			values.UserId = "1";
+			values.UserId = userId;
+			words.add(values);
+			addWordForm.clear();
+			this.hideWindow();
+		}
 	}
 
 	showWindow() {
