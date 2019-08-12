@@ -1,6 +1,6 @@
 import {JetApp, EmptyRouter, HashRouter, plugins} from "webix-jet";
 import "./styles/app.css";
-// import session from "./models/session";
+import session from "./models/session";
 
 export default class MyApp extends JetApp {
 	constructor(config) {
@@ -23,13 +23,14 @@ if (!BUILD_AS_MODULE) {
 		let app = new MyApp();
 		app.render();
 		app.attachEvent("app:error:resolve", () => {
-			webix.delay(() => app.show("/top/login"));
+			webix.delay(() => app.show("/top/authorization"));
 		});
 		app.use(plugins.Locale, {
 			webix: {
 				en: "en-US",
 				ru: "ru-RU"
-			}
+			},
+			storage: webix.storage.local
 		});
 	});
 }

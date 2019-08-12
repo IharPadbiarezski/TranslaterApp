@@ -12,10 +12,10 @@
 	margin-left:-12px;
 }
 .status_error{
-	color:red;
+	color:#ff0000;
 }
 .status_good{
-	color:green;
+	color:#008000;
 }
 
 /*login form*/
@@ -57,3 +57,20 @@
 .header__logo {
     padding-left: 20px;
 }
+.test__label .webix_el_box {
+    font-size: 30px;
+    color: #1648b4;
+}
+.test--category__label .webix_el_box, .test--question__label .webix_el_box {
+    font-size: 20px;
+    font-weight: 400;
+}
+.test__template .webix_template {
+    font-size: 40px;
+}
+.result__template .webix_template {
+    padding-top: 25px;
+    text-align: center;
+    font-size: 40px;
+    color: #008000;
+ }
