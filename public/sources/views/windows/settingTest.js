@@ -2,7 +2,6 @@ import {JetView} from "webix-jet";
 import {wordsGroups} from "../../models/wordsGroups";
 
 export default class SettingTestWindow extends JetView {
-
 	get formId() {
 		return "form";
 	}

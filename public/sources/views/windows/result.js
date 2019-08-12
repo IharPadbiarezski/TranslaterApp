@@ -1,7 +1,6 @@
 import {JetView} from "webix-jet";
 
 export default class ResultWindow extends JetView {
-
 	get templateId() {
 		return "template";
 	}

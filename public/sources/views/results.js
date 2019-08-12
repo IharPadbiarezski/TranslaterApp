@@ -2,7 +2,6 @@ import {JetView} from "webix-jet";
 import {getResultsOfTests} from "../models/resultsOfTestsFromLocalStorage";
 
 export default class ResultsView extends JetView {
-
 	get datatableId() {
 		return "table";
 	}

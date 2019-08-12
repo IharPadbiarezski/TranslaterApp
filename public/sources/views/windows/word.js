@@ -4,7 +4,6 @@ import {wordsGroups} from "../../models/wordsGroups";
 import {partsOfSpeech} from "../../models/partsOfSpeech";
 
 export default class WordWindow extends JetView {
-
 	get formId() {
 		return "form";
 	}

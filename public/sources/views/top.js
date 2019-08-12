@@ -1,7 +1,6 @@
 import {JetView, plugins} from "webix-jet";
 
 export default class TopView extends JetView {
-
 	get userGreetingId() {
 		return "userGreeting";
 	}

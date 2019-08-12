@@ -4,7 +4,6 @@ import ResultWindow from "./windows/result";
 import Storage from "./localStorage/localStorage";
 
 export default class TestsView extends JetView {
-
 	get categoryLabelId() {
 		return "categoryLabel";
 	}

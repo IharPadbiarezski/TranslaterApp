@@ -4,7 +4,6 @@ import WordWindow from "./windows/word";
 import {partsOfSpeech} from "../models/partsOfSpeech";
 
 export default class VocabularyTable extends JetView {
-
 	get datatableId() {
 		return "table";
 	}
@@ -85,6 +84,6 @@ export default class VocabularyTable extends JetView {
 	}
 
 	getDatatable() {
-		return this.$$(`${this.datatableId}`)
+		return this.$$(`${this.datatableId}`);
 	}
 }
