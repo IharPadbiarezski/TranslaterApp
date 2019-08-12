@@ -4,6 +4,39 @@ import ResultWindow from "./windows/result";
 import Storage from "./localStorage/localStorage";
 
 export default class TestsView extends JetView {
+
+	get categoryLabelId() {
+		return "categoryLabel";
+	}
+
+	get questionWordLabelId() {
+		return "questionWordLabel";
+	}
+
+	get questionNumberLabelId() {
+		return "questionNumberLabel";
+	}
+
+	get answerButtonId1() {
+		return "answerButton_1";
+	}
+
+	get answerButtonId2() {
+		return "answerButton_2";
+	}
+
+	get answerButtonId3() {
+		return "answerButton_3";
+	}
+
+	get answerButtonId4() {
+		return "answerButton_4";
+	}
+
+	get scoreId() {
+		return "score";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 
@@ -15,7 +48,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test--category__label",
 					view: "label",
-					localId: "categoryLabel",
+					localId: this.categoryLabelId,
 					align: "center",
 					x: 0,
 					y: 0,
@@ -25,7 +58,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test__label",
 					view: "label",
-					localId: "questionWordLabel",
+					localId: this.questionWordLabelId,
 					align: "center",
 					x: 2,
 					y: 0,
@@ -35,7 +68,7 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy test--question__label",
 					view: "label",
-					localId: "questionNumberLabel",
+					localId: this.questionNumberLabelId,
 					align: "center",
 					x: 4,
 					y: 0,
@@ -45,8 +78,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_1",
-					click: () => this.processAnswer("answerButton_1"),
+					localId: this.answerButtonId1,
+					click: () => this.processAnswer(`${this.answerButtonId1}`),
 					x: 0,
 					y: 1,
 					dx: 3,
@@ -55,8 +88,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_2",
-					click: () => this.processAnswer("answerButton_2"),
+					localId: this.answerButtonId2,
+					click: () => this.processAnswer(`${this.answerButtonId2}`),
 					x: 3,
 					y: 1,
 					dx: 3,
@@ -65,8 +98,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_3",
-					click: () => this.processAnswer("answerButton_3"),
+					localId: this.answerButtonId3,
+					click: () => this.processAnswer(`${this.answerButtonId3}`),
 					x: 0,
 					y: 3,
 					dx: 3,
@@ -75,8 +108,8 @@ export default class TestsView extends JetView {
 				{
 					css: "boxy",
 					view: "button",
-					localId: "answerButton_4",
-					click: () => this.processAnswer("answerButton_4"),
+					localId: this.answerButtonId4,
+					click: () => this.processAnswer(`${this.answerButtonId4}`),
 					x: 3,
 					y: 3,
 					dx: 3,
@@ -84,7 +117,7 @@ export default class TestsView extends JetView {
 				},
 				{
 					css: "boxy test__template",
-					localId: "score",
+					localId: this.scoreId,
 					template: (obj) => {
 						if (obj.Score || obj.Score === 0) {
 							return `${_("Score")}: ${obj.Score}`;
@@ -109,7 +142,7 @@ export default class TestsView extends JetView {
 
 		this.on(this.app, "test:showquestion", (groupName) => {
 			this.groupName = groupName;
-			this.$$("categoryLabel").setValue(`${_("Category")}: ${groupName}`);
+			this.$$(`${this.categoryLabelId}`).setValue(`${_("Category")}: ${groupName}`);
 			this.dischargeParameters();
 			this.showQuestion(groupName);
 			this.setCurrentScore();
@@ -137,7 +170,7 @@ export default class TestsView extends JetView {
 	}
 
 	setCurrentScore() {
-		this.$$("score").setValues({Score: this.score});
+		this.$$(`${this.scoreId}`).setValues({Score: this.score});
 	}
 
 	checkAnswer(userAnswer) {
@@ -163,13 +196,13 @@ export default class TestsView extends JetView {
 		this.questionWord = {English: "Car", Russian: "Авто", PartOfSpeech: "Noun"};
 		const question = this.questionWord.English;
 		this.correctAnswer = this.questionWord.Russian;
-		this.$$("questionWordLabel").setValue(question);
+		this.$$(`${this.questionWordLabelId}`).setValue(question);
 		possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.questionWord.Russian);
 		for (let i = 0; i < possibleAnswers.length; i++) {
 			this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
 		}
 		const questionsTotal = 10;
-		this.$$("questionNumberLabel").setValue(`${this.questionNumber}/${questionsTotal}`);
+		this.$$(`${this.questionNumberLabelId}`).setValue(`${this.questionNumber}/${questionsTotal}`);
 	}
 
 	saveResult(score) {

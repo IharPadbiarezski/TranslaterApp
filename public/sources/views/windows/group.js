@@ -2,6 +2,11 @@ import {JetView} from "webix-jet";
 import {wordsGroups} from "../../models/wordsGroups";
 
 export default class GroupWindow extends JetView {
+
+	get formId() {
+		return "form";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const toolbar = {
@@ -17,7 +22,7 @@ export default class GroupWindow extends JetView {
 
 		const form = {
 			view: "form",
-			localId: "form",
+			localId: this.formId,
 			rows: [
 				{
 					view: "text",
@@ -47,16 +52,7 @@ export default class GroupWindow extends JetView {
 							autowidth: true,
 							hotkey: "enter",
 							css: "webix_primary",
-							click: () => {
-								if (this.$$("form").validate()) {
-									const values = this.$$("form").getValues();
-									values.Amount = 0;
-									values.CreationDate = new Date();
-									wordsGroups.add(values);
-									this.$$("form").clear();
-									this.hideWindow();
-								}
-							}
+							click: () => this.addGroup()
 						}
 					]
 				}
@@ -79,6 +75,18 @@ export default class GroupWindow extends JetView {
 				]
 			}
 		};
+	}
+
+	addGroup() {
+		const groupForm = this.$$(`${this.formId}`);
+		if (groupForm.validate()) {
+			const values = groupForm.getValues();
+			values.Amount = 0;
+			values.CreationDate = new Date();
+			wordsGroups.add(values);
+			groupForm.clear();
+			this.hideWindow();
+		}
 	}
 
 	showWindow() {

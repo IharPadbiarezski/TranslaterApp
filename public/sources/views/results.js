@@ -2,11 +2,16 @@ import {JetView} from "webix-jet";
 import {getResultsOfTests} from "../models/resultsOfTestsFromLocalStorage";
 
 export default class ResultsView extends JetView {
+
+	get datatableId() {
+		return "table";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 		const table = {
 			view: "datatable",
-			localId: "table",
+			localId: this.datatableId,
 			scroll: true,
 			columns: [
 				{
@@ -33,7 +38,7 @@ export default class ResultsView extends JetView {
 	init() {
 		const resultsFromLocalStorage = getResultsOfTests();
 		if (resultsFromLocalStorage) {
-			this.$$("table").parse(resultsFromLocalStorage);
+			this.$$(`${this.datatableId}`).parse(resultsFromLocalStorage);
 		}
 	}
 }

@@ -1,6 +1,15 @@
 import {JetView, plugins} from "webix-jet";
 
 export default class TopView extends JetView {
+
+	get userGreetingId() {
+		return "userGreeting";
+	}
+
+	get languageId() {
+		return "lang";
+	}
+
 	config() {
 		const lang = this.app.getService("locale").getLang();
 		const _ = this.app.getService("locale")._;
@@ -16,14 +25,14 @@ export default class TopView extends JetView {
 				{},
 				{
 					view: "label",
-					localId: "userGreeting"
+					localId: this.userGreetingId
 				},
 				{},
 				{
 					cols: [
 						{
 							view: "segmented",
-							localId: "lang",
+							localId: this.languageId,
 							options: [
 								{id: "en", value: _("EN")},
 								{id: "ru", value: _("RU")}
@@ -92,12 +101,12 @@ export default class TopView extends JetView {
 	init() {
 		this.use(plugins.Menu, "top:menu");
 
-		this.$$("userGreeting").setValue("Hello, dear Igor!");
+		this.$$(`${this.userGreetingId}`).setValue("Hello, dear Igor!");
 	}
 
 	toggleLanguage() {
 		const langs = this.app.getService("locale");
-		const value = this.$$("lang").getValue();
+		const value = this.$$(`${this.languageId}`).getValue();
 		langs.setLang(value);
 	}
 }

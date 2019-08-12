@@ -22,6 +22,10 @@ export default class LoginView extends JetView {
 		return "loginTop";
 	}
 
+	get languageId() {
+		return "lang";
+	}
+
 	config() {
 		const lang = this.app.getService("locale").getLang();
 		const _ = this.app.getService("locale")._;
@@ -38,7 +42,7 @@ export default class LoginView extends JetView {
 				{},
 				{
 					view: "segmented",
-					localId: "lang",
+					localId: this.languageId,
 					options: [
 						{id: "en", value: _("EN")},
 						{id: "ru", value: _("RU")}
@@ -289,7 +293,7 @@ export default class LoginView extends JetView {
 
 	toggleLanguage() {
 		const langs = this.app.getService("locale");
-		const value = this.$$("lang").getValue();
+		const value = this.$$(`${this.languageId}`).getValue();
 		langs.setLang(value);
 	}
 }
