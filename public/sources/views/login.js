@@ -44,7 +44,7 @@ export default class LoginView extends JetView {
 					label: _("Register"),
 					autowidth: true,
 					click: () => {
-						this.show("signup");
+						this.show("register");
 					}
 
 				}

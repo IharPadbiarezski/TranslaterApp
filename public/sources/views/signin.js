@@ -9,6 +9,10 @@ export default class LoginForm extends JetView {
 		return "loginForm";
 	}
 
+	get loginTopId() {
+		return "loginTop";
+	}
+
 	config() {
 		const _ = this.app.getService("locale")._;
 
@@ -60,6 +64,7 @@ export default class LoginForm extends JetView {
 		};
 
 		return {
+			localId: this.loginTopId,
 			rows: [
 				loginHeader,
 				loginForm,
