@@ -88,6 +88,7 @@ export default class SettingTestWindow extends JetView {
 	checkNumberOfWords(groupId) {
 		webix.ajax().post(`${urls.getLengthOfAvailableWords}?group=${groupId}`, "", (response) => {
 			const length = JSON.parse(response).Length;
+			this.length = length;
 			if (length > 3) {
 				this.displayTestScreen(groupId);
 			}

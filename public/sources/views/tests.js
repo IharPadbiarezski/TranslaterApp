@@ -3,6 +3,8 @@ import SettingTestWindow from "./windows/settingTest";
 import ResultWindow from "./windows/result";
 import {resultsOfTests} from "../models/resultsOfTests";
 import {urls} from "../config/urls";
+import {partsOfSpeech} from "../models/partsOfSpeech";
+import {additionWords} from "../models/additionWords";
 
 export default class TestsView extends JetView {
 	get categoryLabelId() {
@@ -196,11 +198,25 @@ export default class TestsView extends JetView {
 		webix.ajax().post(`${urls.getOptions}?group=${this.groupId}&user=${currentUser}`, "", (response) => {
 			const test = JSON.parse(response);
 			const question = test.correctAnswer.English;
-			this.PartOfSpeech = test.correctAnswer.PartOfSpeech;
+			this.PartOfSpeech = test.partOfSpeech;
 			this.correctAnswer = test.correctAnswer.Russian;
+			const correctAnswer = test.correctAnswer.Russian;
 			this.$$(`${this.questionWordLabelId}`).setValue(question);
 			const possibleAnswers = test.answers;
-			possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.correctAnswer);
+			const answersAmount = test.answers.length;
+
+			const partOfSpeechWord = partsOfSpeech.getItem(test.partOfSpeech).value;
+			if (partOfSpeechWord) {
+				const auxiliaryWords = additionWords.filter(word => word.name === partOfSpeechWord);
+				if (possibleAnswers < 3 && auxiliaryWords) {
+					let difference = 3 - possibleAnswers;
+					for (let i = 0; i < difference; i++) {
+						possibleAnswers.push(auxiliaryWords[0].values[i]);
+					}
+				}
+			}
+
+			possibleAnswers.splice(Math.floor(Math.random() * answersAmount), 0, correctAnswer);
 			for (let i = 0; i < possibleAnswers.length; i++) {
 				this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
 			}

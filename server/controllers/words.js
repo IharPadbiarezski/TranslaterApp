@@ -83,29 +83,33 @@ exports.getOptions = (req, res) => {
     Words.findMany( query, (err, items) => {
 		if (err) {
             res.send({error: "An error has occured"});
+            console.log("error")
         }
-        else {
+        if (items.length > 0) {
             const groupItems = items.filter((item) => item.GroupId === groupId);
-            const correctAnswer = groupItems.splice(Math.floor(Math.random() * items.length), 1)[0];
-            if (correctAnswer) {
-                const possibleAnswers = items.filter((item) => item.PartOfSpeech === correctAnswer.PartOfSpeech);
-                let answers = [];
-                if (possibleAnswers.length >= 3) {
-                    for (let i = 0; i < 3; i++) {
-                        const answer = possibleAnswers.splice(Math.floor(Math.random() * possibleAnswers.length), 1)[0];
-                        answers.push(answer.Russian);
-                    }
+            const questionObject = groupItems.splice(Math.floor(Math.random() * groupItems.length ), 1)[0];
+            const correctAnswerRussian = questionObject.Russian;
+            const questionWordEnglish = questionObject.English;
+            const partOfSpeech = questionObject.PartOfSpeech;
+            const possibleAnswers = items.filter((item) => item.PartOfSpeech === partOfSpeech);
+            const answers = [];
+            if (possibleAnswers.length > 1) {
+                for (let i = 0; i < 3; i++) {
+                    const answer = possibleAnswers.splice(Math.floor(Math.random() * possibleAnswers.length), 1)[0];
+                    answers.push(answer.Russian);
                 }
-                else {
-                    answers = possibleAnswers;
-                }
-                const test = {
-                    correctAnswer,
-                    answers,
-                    WordsAmount: groupItems.length
-                }
-                res.send(test);
             }
+
+            const test = {
+                correctAnswer: {
+                    Russian: correctAnswerRussian,
+                    English: questionWordEnglish
+                },
+                WordsAmount: groupItems.length,
+                partOfSpeech,
+                answers
+            }
+        res.send(test);
         }
 	});
 }
