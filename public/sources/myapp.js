@@ -14,7 +14,10 @@ export default class MyApp extends JetApp {
 
 		super({...defaults, ...config});
 
-		this.use(plugins.User, {model: session});
+		this.use(plugins.User, {
+			model: session,
+			public: path => path.indexOf("/login/signin") > -1 || path.indexOf("/login/register") > -1
+		});
 	}
 }
 

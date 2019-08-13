@@ -1,29 +1,8 @@
 import {JetView} from "webix-jet";
-import {urls} from "../config/urls";
 
 export default class LoginView extends JetView {
 	get languageId() {
 		return "lang";
-	}
-
-	get loginHeaderId() {
-		return "loginHeader";
-	}
-
-	get loginFormId() {
-		return "loginForm";
-	}
-
-	get loginTopId() {
-		return "loginTop";
-	}
-
-	get registerHeaderId() {
-		return "registerHeader";
-	}
-
-	get registerFormId() {
-		return "registerForm";
 	}
 
 	config() {
@@ -56,12 +35,7 @@ export default class LoginView extends JetView {
 					label: _("Login"),
 					autowidth: true,
 					click: () => {
-						if (this.$$("registerForm")) {
-							this.hideElement("registerForm");
-							this.hideElement("registerHeader");
-							this.showElement("loginForm");
-							this.showElement("loginHeader");
-						}
+						this.show("signin");
 					}
 				},
 				{
@@ -70,131 +44,11 @@ export default class LoginView extends JetView {
 					label: _("Register"),
 					autowidth: true,
 					click: () => {
-						if (this.$$("loginForm")) {
-							this.hideElement("loginForm");
-							this.hideElement("loginHeader");
-							this.showElement("registerForm");
-							this.showElement("registerHeader");
-						}
+						this.show("signup");
 					}
 
 				}
 			]
-		};
-
-		const loginHeader = {
-			localId: this.loginHeaderId,
-			type: "header",
-			template: _("Login")
-		};
-
-		const registerHeader = {
-			localId: this.registerHeaderId,
-			type: "header",
-			template: _("Register")
-		};
-
-		const loginForm = {
-			view: "form",
-			localId: this.loginFormId,
-			width: 600,
-			borderless: false,
-			margin: 10,
-			rows: [
-				{
-					view: "text",
-					name: "name",
-					label: _("Name"),
-					labelAlign: "right",
-					invalidMessage: _("Incorrect name!"),
-					attributes: {
-						maxlength: 20
-					}
-				},
-				{
-					view: "text",
-					type: "password",
-					name: "password",
-					label: _("Password"),
-					labelAlign: "right"
-				},
-				{
-					cols: [
-						{
-							view: "button",
-							value: _("Login"),
-							hotkey: "enter",
-							autowidth: true,
-							click: () => this.onLogin()
-						}
-					]
-				}
-			],
-			elementsConfig: {
-				labelWidth: 150
-			}
-		};
-
-		const registerForm = {
-			view: "form",
-			localId: this.registerFormId,
-			width: 600,
-			borderless: false,
-			margin: 10,
-			rows: [
-				{
-					view: "text",
-					name: "name",
-					label: _("Name"),
-					labelAlign: "right",
-					invalidMessage: _("The name is required."),
-					attributes: {
-						maxlength: 20
-					}
-				},
-				{
-					view: "text",
-					name: "email",
-					label: _("E-Mail Address"),
-					labelAlign: "right"
-				},
-				{
-					view: "text",
-					type: "password",
-					name: "password",
-					label: _("Password"),
-					labelAlign: "right",
-					invalidMessage: _("The password confirmation does not match.")
-				},
-				{
-					view: "text",
-					type: "password",
-					name: "passwordConf",
-					label: _("Confirm Password"),
-					labelAlign: "right"
-				},
-				{
-					cols: [
-						{
-							view: "button",
-							value: _("Register"),
-							hotkey: "enter",
-							autowidth: true,
-							click: () => this.onRegister()
-						}
-					]
-				}
-			],
-			elementsConfig: {
-				labelWidth: 150
-			},
-			rules: {
-				name: webix.rules.isNotEmpty,
-				password: (value) => {
-					const passwordConf = this.getRegisterForm().getValues().passwordConf;
-					return value === passwordConf && value.length > 0;
-				}
-			}
 		};
 
 		return {
@@ -206,15 +60,7 @@ export default class LoginView extends JetView {
 						{
 							cols: [
 								{},
-								{
-									localId: this.loginTopId,
-									rows: [
-										registerHeader,
-										registerForm,
-										loginHeader,
-										loginForm,
-										{}
-									]},
+								{$subview: true},
 								{}
 							]
 						}
@@ -224,73 +70,8 @@ export default class LoginView extends JetView {
 		};
 	}
 
-	init(view) {
-		this.hideElement("registerForm");
-		this.hideElement("registerHeader");
-		view.$view.querySelector("input").focus();
-	}
-
-	getLoginForm() {
-		return this.$$(`${this.loginFormId}`);
-	}
-
-	getRegisterForm() {
-		return this.$$(`${this.registerFormId}`);
-	}
-
-	onLogin() {
-		const form = this.getLoginForm();
-		let values = form.getValues();
-		this.doLogin(form, values);
-	}
-
-	doLogin(view, values) {
-		const user = this.app.getService("user");
-		const ui = this.$$("loginTop");
-
-		if (view && view.validate()) {
-			user.login(values.name, values.password).catch(() => {
-				webix.html.removeCss(ui.$view, "invalid_login");
-				view.elements.password.focus();
-				webix.delay(() => {
-					webix.html.addCss(ui.$view, "invalid_login");
-				});
-			});
-		}
-	}
-
-	showElement(elemId) {
-		this.$$(elemId).show();
-		this.$$(elemId).show();
-	}
-
-	hideElement(elemId) {
-		this.$$(elemId).hide();
-		this.$$(elemId).hide();
-	}
-
-	onRegister() {
-		const form = this.getRegisterForm();
-		form.clearValidation();
-		if (form.validate()) {
-			this.doRegister();
-		}
-	}
-
-	doRegister() {
-		const registerForm = this.getRegisterForm();
-		const values = registerForm.getValues();
-		values.date = new Date();
-		webix.ajax().post(urls.register, values, (response) => {
-			const registerError = JSON.parse(response).error;
-			if (!registerError) {
-				const user = this.app.getService("user");
-				user.login(values.name, values.password);
-			}
-			else {
-				this.$$("registerForm").markInvalid("email", registerError);
-			}
-		});
+	init() {
+		this.show("signin");
 	}
 
 	toggleLanguage() {
