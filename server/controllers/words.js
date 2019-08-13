@@ -1,5 +1,4 @@
 const Words = require('../models/words');
-const PartsOfSpeech = require('../models/partsOfSpeech');
 
 exports.all = (req, res) => {
     Words.all((err, items) => {
@@ -77,32 +76,36 @@ exports.delete = (req, res) => {
 };
 
 exports.getOptions = (req, res) => {
+    groupId = req.query.group;
     const query = {
-        GroupId: req.query.group
+        UserId: req.query.user
     }
     Words.findMany( query, (err, items) => {
 		if (err) {
             res.send({error: "An error has occured"});
         }
         else {
-            const correctAnswer = items.splice(Math.floor(Math.random() * items.length), 1)[0];
-            const possibleAnswers = items.filter((item) => item.PartOfSpeech === correctAnswer.PartOfSpeech);
-            let answers = [];
-            if (possibleAnswers.length >= 3) {
-                for (let i = 0; i < 3; i++) {
-                    const answer = possibleAnswers.splice(Math.floor(Math.random() * possibleAnswers.length), 1)[0];
-                    answers.push(answer.Russian);
+            const groupItems = items.filter((item) => item.GroupId === groupId);
+            const correctAnswer = groupItems.splice(Math.floor(Math.random() * items.length), 1)[0];
+            if (correctAnswer) {
+                const possibleAnswers = items.filter((item) => item.PartOfSpeech === correctAnswer.PartOfSpeech);
+                let answers = [];
+                if (possibleAnswers.length >= 3) {
+                    for (let i = 0; i < 3; i++) {
+                        const answer = possibleAnswers.splice(Math.floor(Math.random() * possibleAnswers.length), 1)[0];
+                        answers.push(answer.Russian);
+                    }
                 }
+                else {
+                    answers = possibleAnswers;
+                }
+                const test = {
+                    correctAnswer,
+                    answers,
+                    WordsAmount: groupItems.length
+                }
+                res.send(test);
             }
-            else {
-                answers = possibleAnswers;
-            }
-            const test = {
-                correctAnswer,
-                answers,
-                WordsAmount: possibleAnswers.length
-            }
-            res.send(test);
         }
 	});
 }
@@ -115,7 +118,6 @@ exports.getLengthOfAvailableWords = (req, res) => {
 		if (err) {
             res.send({error: "An error has occured"});
         }
-        const possibleAnswers = items.filter((item) => item.PartOfSpeech === correctAnswer.PartOfSpeech);
-        res.send({Length: possibleAnswers.length});
+        res.send({Length: items.length});
 	});
 }

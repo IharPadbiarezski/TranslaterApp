@@ -191,14 +191,16 @@ export default class TestsView extends JetView {
 
 
 	showQuestion() {
-		webix.ajax().post(`${urls.getOptions}?group=${this.groupId}`, "", (response) => {
+		const user = this.app.getService("user");
+		const currentUser = user.getUser().id;
+		webix.ajax().post(`${urls.getOptions}?group=${this.groupId}&user=${currentUser}`, "", (response) => {
 			const test = JSON.parse(response);
 			const question = test.correctAnswer.English;
 			this.PartOfSpeech = test.correctAnswer.PartOfSpeech;
 			this.correctAnswer = test.correctAnswer.Russian;
 			this.$$(`${this.questionWordLabelId}`).setValue(question);
 			const possibleAnswers = test.answers;
-			possibleAnswers.splice(Math.floor(Math.random() * 4), 0, test.correctAnswer.Russian);
+			possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.correctAnswer);
 			for (let i = 0; i < possibleAnswers.length; i++) {
 				this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
 			}
