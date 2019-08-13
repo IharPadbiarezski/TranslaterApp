@@ -1,6 +1,6 @@
 const MongoClient = require("mongodb").MongoClient;
 const session = require("express-session");
-const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 let state = {
 	db: null,

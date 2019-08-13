@@ -1,4 +1,4 @@
-const PartsOfSpeech = require('../models/partsOfSpeech');
+const PartsOfSpeech = require("../models/partsOfSpeech");
 
 exports.all = (req, res) => {
     PartsOfSpeech.all((err, items) => {

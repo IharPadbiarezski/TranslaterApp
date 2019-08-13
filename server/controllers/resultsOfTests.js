@@ -1,4 +1,4 @@
-const ResultsOfTests = require('../models/resultsOfTests');
+const ResultsOfTests = require("../models/resultsOfTests");
 
 exports.all = (req, res) => {
     ResultsOfTests.all((err, items) => {

@@ -1,4 +1,4 @@
-const mainUrl = "http://localhost:3000/api/v1/";
+const mainUrl = "api/v1/";
 
 export const urls = {
 	wordsGroups: `${mainUrl}wordsgroups`,

@@ -1,4 +1,4 @@
-const Words = require('../models/words');
+const Words = require("../models/words");
 
 exports.all = (req, res) => {
     Words.all((err, items) => {

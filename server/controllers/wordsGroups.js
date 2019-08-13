@@ -1,4 +1,4 @@
-const WordsGroups = require('../models/wordsGroups');
+const WordsGroups = require("../models/wordsGroups");
 
 exports.all = (req, res) => {
     WordsGroups.all((err, items) => {

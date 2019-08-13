@@ -1,4 +1,4 @@
-const TranslatorUsers = require('../models/translatorUsers');
+const TranslatorUsers = require("../models/translatorUsers");
 
 exports.all = (req, res) => {
     TranslatorUsers.all((err, items) => {

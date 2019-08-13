@@ -1,5 +1,5 @@
-const Sessions = require('../models/session');
-const crypto = require('crypto');
+const Sessions = require("../models/session");
+const crypto = require("crypto");
 const validator = require("email-validator");
 
 exports.login = (req, res) => {
@@ -60,7 +60,7 @@ exports.register = (req, res) => {
             }
             else {
                 const password = req.body.password;
-                const salt = crypto.randomBytes(16).toString('hex');
+                const salt = crypto.randomBytes(16).toString("hex");
                 const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
                 const client = {
                     Name: req.body.name,
