@@ -1,6 +1,5 @@
 import {JetView} from "webix-jet";
 import {words} from "../../models/words";
-import {wordsGroups} from "../../models/wordsGroups";
 import {partsOfSpeech} from "../../models/partsOfSpeech";
 
 export default class WordWindow extends JetView {
@@ -111,11 +110,12 @@ export default class WordWindow extends JetView {
 		if (addWordForm.validate()) {
 			const values = addWordForm.getValues();
 			const id = this.getParam("id", true);
+			const user = this.app.getService("user");
+			const userId = user.getUser().id;
 			values.GroupId = id;
 			// Change User Id field after use User plugin
 			values.UserId = "1";
-			let currentAmount = wordsGroups.getItem(id).Amount;
-			wordsGroups.updateItem(id, {Amount: ++currentAmount});
+			values.UserId = userId;
 			words.add(values);
 			addWordForm.clear();
 			this.hideWindow();

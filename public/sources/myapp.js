@@ -14,7 +14,10 @@ export default class MyApp extends JetApp {
 
 		super({...defaults, ...config});
 
-		// this.use(plugins.User, {model: session});
+		this.use(plugins.User, {
+			model: session,
+			public: path => path.indexOf("/login/signin") > -1 || path.indexOf("/login/register") > -1
+		});
 	}
 }
 
@@ -23,7 +26,7 @@ if (!BUILD_AS_MODULE) {
 		let app = new MyApp();
 		app.render();
 		app.attachEvent("app:error:resolve", () => {
-			webix.delay(() => app.show("/top/authorization"));
+			webix.delay(() => app.show("/top/login"));
 		});
 		app.use(plugins.Locale, {
 			webix: {

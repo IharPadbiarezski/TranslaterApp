@@ -80,8 +80,11 @@ export default class GroupWindow extends JetView {
 		const groupForm = this.$$(`${this.formId}`);
 		if (groupForm.validate()) {
 			const values = groupForm.getValues();
+			const user = this.app.getService("user");
+			const userId = user.getUser().id;
 			values.Amount = 0;
 			values.CreationDate = new Date();
+			values.UserId = userId;
 			wordsGroups.add(values);
 			groupForm.clear();
 			this.hideWindow();

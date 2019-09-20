@@ -2,16 +2,8 @@ import {JetView} from "webix-jet";
 import {urls} from "../config/urls";
 
 export default class RegisterForm extends JetView {
-	get loginHeaderId() {
-		return "loginHeader";
-	}
-
 	get registerHeaderId() {
 		return "registerHeader";
-	}
-
-	get loginFormId() {
-		return "loginForm";
 	}
 
 	get registerFormId() {
@@ -20,10 +12,6 @@ export default class RegisterForm extends JetView {
 
 	get loginTopId() {
 		return "loginTop";
-	}
-
-	get languageId() {
-		return "lang";
 	}
 
 	config() {
@@ -98,6 +86,7 @@ export default class RegisterForm extends JetView {
 		};
 
 		return {
+			localId: this.loginTopId,
 			rows: [
 				registerHeader,
 				registerForm,
@@ -107,39 +96,12 @@ export default class RegisterForm extends JetView {
 	}
 
 	init(view) {
-		// this.hideElement(`${this.registerFormId}`);
-		// this.hideElement(`${this.registerHeaderId}`);
 		view.$view.querySelector("input").focus();
 	}
-
-	// getLoginForm() {
-	// 	return this.$$(`${this.loginFormId}`);
-	// }
 
 	getRegisterForm() {
 		return this.$$(`${this.registerFormId}`);
 	}
-
-	// onLogin() {
-	// 	const form = this.getLoginForm();
-	// 	let values = form.getValues();
-	// 	this.doLogin(form, values);
-	// }
-
-	// doLogin(view, values) {
-	// 	const user = this.app.getService("user");
-	// 	const ui = this.$$(`${this.loginTopId}`);
-
-	// 	if (view && view.validate()) {
-	// 		user.login(values.name, values.password).catch(() => {
-	// 			webix.html.removeCss(ui.$view, "invalid_login");
-	// 			view.elements.password.focus();
-	// 			webix.delay(() => {
-	// 				webix.html.addCss(ui.$view, "invalid_login");
-	// 			});
-	// 		});
-	// 	}
-	// }
 
 	onRegister() {
 		const form = this.getRegisterForm();
@@ -148,14 +110,6 @@ export default class RegisterForm extends JetView {
 			this.doRegister();
 		}
 	}
-
-	// showElement(elemId) {
-	// 	this.$$(elemId).show();
-	// }
-
-	// hideElement(elemId) {
-	// 	this.$$(elemId).hide();
-	// }
 
 	doRegister() {
 		const registerForm = this.getRegisterForm();

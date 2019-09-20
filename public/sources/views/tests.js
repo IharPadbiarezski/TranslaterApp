@@ -1,7 +1,10 @@
 import {JetView} from "webix-jet";
 import SettingTestWindow from "./windows/settingTest";
 import ResultWindow from "./windows/result";
-import Storage from "./localStorage/localStorage";
+import {resultsOfTests} from "../models/resultsOfTests";
+import {urls} from "../config/urls";
+import {partsOfSpeech} from "../models/partsOfSpeech";
+import {additionWords} from "../models/additionWords";
 
 export default class TestsView extends JetView {
 	get categoryLabelId() {
@@ -139,8 +142,9 @@ export default class TestsView extends JetView {
 		this.resultWindow = this.ui(ResultWindow);
 		this.settingTestWindow.showWindow();
 
-		this.on(this.app, "test:showquestion", (groupName) => {
+		this.on(this.app, "test:showquestion", (groupName, groupId) => {
 			this.groupName = groupName;
+			this.groupId = groupId;
 			this.$$(`${this.categoryLabelId}`).setValue(`${_("Category")}: ${groupName}`);
 			this.dischargeParameters();
 			this.showQuestion(groupName);
@@ -156,7 +160,7 @@ export default class TestsView extends JetView {
 		const answer = this.$$(`${buttonId}`).getValue();
 		this.checkAnswer(answer);
 		this.showQuestion();
-		if (this.questionNumber === 10) {
+		if (this.questionNumber === this.questionsTotal) {
 			this.resultWindow.showWindow({Result: this.score});
 			this.setCurrentScore();
 			this.saveResult(this.score);
@@ -174,7 +178,9 @@ export default class TestsView extends JetView {
 
 	checkAnswer(userAnswer) {
 		if (userAnswer === this.correctAnswer) {
-			if (this.questionWord.PartOfSpeech === "Noun" || this.questionWord.PartOfSpeech === "Verb") {
+			const idForNoun = "5d4c21467fa98d49d08e0c4a";
+			const idForVerb = "5d4c21607fa98d49d08e0c4b";
+			if (this.PartOfSpeech === idForNoun || this.PartOfSpeech === idForVerb) {
 				this.score += 2;
 			}
 			else {
@@ -185,36 +191,54 @@ export default class TestsView extends JetView {
 		++this.questionNumber;
 	}
 
-	makeRequest() {
-
-	}
 
 	showQuestion() {
-		// Here would be ajax request and every time is called the app get new object
-		let possibleAnswers = ["Стол", "Стул", "Дверь"];
-		this.questionWord = {English: "Car", Russian: "Авто", PartOfSpeech: "Noun"};
-		const question = this.questionWord.English;
-		this.correctAnswer = this.questionWord.Russian;
-		this.$$(`${this.questionWordLabelId}`).setValue(question);
-		possibleAnswers.splice(Math.floor(Math.random() * 4), 0, this.questionWord.Russian);
-		for (let i = 0; i < possibleAnswers.length; i++) {
-			this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
-		}
-		const questionsTotal = 10;
-		this.$$(`${this.questionNumberLabelId}`).setValue(`${this.questionNumber}/${questionsTotal}`);
+		const user = this.app.getService("user");
+		const currentUser = user.getUser().id;
+		webix.ajax().post(`${urls.getOptions}?group=${this.groupId}&user=${currentUser}`, "", (response) => {
+			const test = JSON.parse(response);
+			const question = test.correctAnswer.English;
+			this.PartOfSpeech = test.partOfSpeech;
+			this.correctAnswer = test.correctAnswer.Russian;
+			const correctAnswer = test.correctAnswer.Russian;
+			this.$$(`${this.questionWordLabelId}`).setValue(question);
+			const possibleAnswers = test.answers;
+			const answersAmount = test.answers.length;
+
+			const partOfSpeechWord = partsOfSpeech.getItem(test.partOfSpeech).value;
+			if (partOfSpeechWord) {
+				const auxiliaryWords = additionWords.filter(word => word.name === partOfSpeechWord);
+				if (possibleAnswers < 3 && auxiliaryWords) {
+					let difference = 3 - possibleAnswers;
+					for (let i = 0; i < difference; i++) {
+						possibleAnswers.push(auxiliaryWords[0].values[i]);
+					}
+				}
+			}
+
+			possibleAnswers.splice(Math.floor(Math.random() * answersAmount), 0, correctAnswer);
+			for (let i = 0; i < possibleAnswers.length; i++) {
+				this.$$(`answerButton_${i + 1}`).setValue(possibleAnswers[i]);
+			}
+			this.questionsTotal = 10;
+			if (test.WordsAmount < 10) {
+				this.questionsTotal = test.WordsAmount;
+			}
+			this.$$(`${this.questionNumberLabelId}`).setValue(`${this.questionNumber}/${this.questionsTotal}`);
+		});
 	}
 
 	saveResult(score) {
-		const resultsAmount = Storage.getResultsOfTestsFromLocalStorage().length;
-		const serialNumber = resultsAmount + 1;
 		const myformat = webix.Date.dateToStr("%Y-%m-%d %H:%i:%s");
 		const formatedCurrentDate = myformat(new Date());
+		const user = this.app.getService("user");
+		const userId = user.getUser().id;
 		const resultOfTest = {
-			SerialNumber: serialNumber,
 			TestDate: formatedCurrentDate,
 			Result: score,
-			GroupName: this.groupName
+			GroupName: this.groupName,
+			UserId: userId
 		};
-		Storage.saveResultOfTestIntoLocalStorage(resultOfTest);
+		resultsOfTests.add(resultOfTest);
 	}
 }
